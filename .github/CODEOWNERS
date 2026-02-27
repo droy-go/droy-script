@@ -1,0 +1,103 @@
+# =============================================================================
+# Droy Language - CODEOWNERS File
+# =============================================================================
+# This file defines individuals or teams responsible for code in the repository.
+# CODEOWNERS are automatically requested for review when someone opens a PR
+# that modifies code they own.
+#
+# For more information: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# =============================================================================
+
+# =============================================================================
+# Global Owners (Default for all files)
+# =============================================================================
+* @droy-go
+
+# =============================================================================
+# Core Language Implementation
+# =============================================================================
+# Lexer and Tokenizer
+/src/lexer.* @droy-go
+/src/token.* @droy-go
+/include/lexer.h @droy-go
+/include/token.h @droy-go
+
+# Parser
+/src/parser.* @droy-go
+/include/parser.h @droy-go
+
+# AST (Abstract Syntax Tree)
+/src/ast.* @droy-go
+/include/ast.h @droy-go
+
+# Interpreter
+/src/interpreter.* @droy-go
+/include/droy.h @droy-go
+
+# =============================================================================
+# LLVM Backend
+# =============================================================================
+/llvm_backend/ @droy-go
+/include/llvm_generator.h @droy-go
+
+# =============================================================================
+# Database Module
+# =============================================================================
+/database/ @droy-go
+/include/droy_database.h @droy-go
+
+# =============================================================================
+# Build System
+# =============================================================================
+/CMakeLists.txt @droy-go
+/Makefile @droy-go
+/cmake/ @droy-go
+*.cmake @droy-go
+
+# =============================================================================
+# CI/CD and Automation
+# =============================================================================
+/.github/workflows/ @droy-go
+/.github/dependabot.yml @droy-go
+/.github/renovate.json @droy-go
+
+# =============================================================================
+# Documentation
+# =============================================================================
+/docs/ @droy-go
+*.md @droy-go
+README.md @droy-go
+CONTRIBUTING.md @droy-go
+CODE_OF_CONDUCT.md @droy-go
+SECURITY.md @droy-go
+
+# =============================================================================
+# Testing
+# =============================================================================
+/tests/ @droy-go
+
+# =============================================================================
+# Examples
+# =============================================================================
+/examples/ @droy-go
+
+# =============================================================================
+# Web Editor
+# =============================================================================
+/editor/ @droy-go
+/c-editor/ @droy-go
+
+# =============================================================================
+# Scripts
+# =============================================================================
+/scripts/ @droy-go
+*.sh @droy-go
+
+# =============================================================================
+# Configuration Files
+# =============================================================================
+/.clang-format @droy-go
+/.clang-tidy @droy-go
+/.editorconfig @droy-go
+/.gitattributes @droy-go
+/.gitignore @droy-go
