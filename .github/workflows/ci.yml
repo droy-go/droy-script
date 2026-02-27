@@ -109,7 +109,7 @@ jobs:
             libllvm14
       
       - name: Cache build
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: |
             obj/
