@@ -1,0 +1,33 @@
+// Functions Example
+// =================
+
+pkg "functions"
+
+// Simple function
+f greet(name) {
+    ret "Hello, " + name + "!"
+}
+
+// Function with multiple parameters
+f add(a, b) {
+    ret a + b
+}
+
+// Function with default behavior
+f multiply(a, b) {
+    ret a * b
+}
+
+// Recursive function
+f factorial(n) {
+    fe (n <= 1) {
+        ret 1
+    }
+    ret n * factorial(n - 1)
+}
+
+// Use functions
+em greet("World")
+em "5 + 3 = " + add(5, 3)
+em "4 * 7 = " + multiply(4, 7)
+em "5! = " + factorial(5)
