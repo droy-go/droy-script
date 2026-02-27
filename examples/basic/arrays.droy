@@ -1,0 +1,31 @@
+// Arrays Example
+// ==============
+
+pkg "arrays"
+
+// Create an array
+~s numbers = [1, 2, 3, 4, 5]
+em "Numbers: " + numbers
+
+// Array operations
+em "Length: " + len(numbers)
+
+// Push elements
+push(numbers, 6)
+em "After push: " + numbers
+
+// Pop element
+~s last = pop(numbers)
+em "Popped: " + last
+em "After pop: " + numbers
+
+// Mixed array
+~s mixed = [1, "two", 3.0, true]
+em "Mixed: " + mixed
+
+// Array iteration
+em ""
+em "Iterating over numbers:"
+for (num in numbers) {
+    em "  " + num
+}
