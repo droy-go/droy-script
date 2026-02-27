@@ -1,0 +1,26 @@
+# =============================================================================
+# Droy Language - Auto Assign
+# =============================================================================
+# This workflow automatically assigns reviewers and assignees to pull requests.
+# =============================================================================
+
+name: Auto Assign
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    name: Auto Assign Reviewers
+    
+    steps:
+    - name: Auto Assign
+      uses: kentaro-m/auto-assign-action@v2.0.0
+      with:
+        configuration-path: .github/auto-assign.yml
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
