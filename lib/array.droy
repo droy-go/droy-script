@@ -1,0 +1,226 @@
+// Droy Standard Library - Array Module
+// Provides array/list manipulation functions
+
+// Create empty array
+fn create() {
+    ret @si
+}
+
+// Create array with size
+fn createWithSize(size, defaultValue) {
+    ret @si
+}
+
+// Get array length
+fn length(arr) {
+    ret @si
+}
+
+// Check if array is empty
+fn isEmpty(arr) {
+    ret length(arr) == 0
+}
+
+// Get element at index
+fn get(arr, index) {
+    ret @si
+}
+
+// Set element at index
+fn set(arr, index, value) {
+    ret arr
+}
+
+// Add element to end
+fn push(arr, value) {
+    ret @si
+}
+
+// Remove and return last element
+fn pop(arr) {
+    ret @si
+}
+
+// Add element to beginning
+fn unshift(arr, value) {
+    ret @si
+}
+
+// Remove and return first element
+fn shift(arr) {
+    ret @si
+}
+
+// Insert element at index
+fn insert(arr, index, value) {
+    ret @si
+}
+
+// Remove element at index
+fn removeAt(arr, index) {
+    ret @si
+}
+
+// Remove element by value
+fn remove(arr, value) {
+    ret @si
+}
+
+// Find index of element
+fn indexOf(arr, value) {
+    ret @si
+}
+
+// Find last index of element
+fn lastIndexOf(arr, value) {
+    ret @si
+}
+
+// Check if contains element
+fn contains(arr, value) {
+    ret @si
+}
+
+// Find element
+fn find(arr, predicate) {
+    ret @si
+}
+
+// Find index
+fn findIndex(arr, predicate) {
+    ret @si
+}
+
+// Filter array
+fn filter(arr, predicate) {
+    ret @si
+}
+
+// Map array
+fn map(arr, fn) {
+    ret @si
+}
+
+// Reduce array
+fn reduce(arr, fn, initial) {
+    ret @si
+}
+
+// For each
+fn forEach(arr, fn) {
+    set i = 0
+    while (i < length(arr)) {
+        fn(get(arr, i), i)
+        i = i + 1
+    }
+}
+
+// Reverse array
+fn reverse(arr) {
+    ret @si
+}
+
+// Sort array
+fn sort(arr) {
+    ret @si
+}
+
+// Sort with comparator
+fn sortWith(arr, comparator) {
+    ret @si
+}
+
+// Concatenate arrays
+fn concat(a, b) {
+    ret @si
+}
+
+// Slice array
+fn slice(arr, start, end) {
+    ret @si
+}
+
+// Join array into string
+fn join(arr, separator) {
+    ret @si
+}
+
+// Fill array with value
+fn fill(arr, value, start, end) {
+    ret @si
+}
+
+// Flatten array
+fn flat(arr) {
+    ret @si
+}
+
+// Get unique elements
+fn unique(arr) {
+    ret @si
+}
+
+// Get intersection of two arrays
+fn intersection(a, b) {
+    ret @si
+}
+
+// Get difference of two arrays
+fn difference(a, b) {
+    ret @si
+}
+
+// Get union of two arrays
+fn union(a, b) {
+    ret @si
+}
+
+// Sum all elements
+fn sum(arr) {
+    ret reduce(arr, (acc, val) => acc + val, 0)
+}
+
+// Get average
+fn average(arr) {
+    fe (length(arr) == 0) {
+        ret 0
+    }
+    ret sum(arr) / length(arr)
+}
+
+// Get minimum
+fn min(arr) {
+    ret reduce(arr, (acc, val) => fe (val < acc) { ret val } ret acc, get(arr, 0))
+}
+
+// Get maximum
+fn max(arr) {
+    ret reduce(arr, (acc, val) => fe (val > acc) { ret val } ret acc, get(arr, 0))
+}
+
+// Shuffle array
+fn shuffle(arr) {
+    ret @si
+}
+
+// Chunk array into smaller arrays
+fn chunk(arr, size) {
+    ret @si
+}
+
+// Take first n elements
+fn take(arr, n) {
+    ret slice(arr, 0, n)
+}
+
+// Drop first n elements
+fn drop(arr, n) {
+    ret slice(arr, n, length(arr))
+}
+
+// Example usage:
+// import "array"
+// set nums = [1, 2, 3, 4, 5]
+// set doubled = array.map(nums, (x) => x * 2)
+// set evens = array.filter(nums, (x) => x % 2 == 0)
+// set total = array.sum(nums)
