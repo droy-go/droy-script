@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!--
+=============================================================================
+Droy Language - Cppcheck Suppressions
+=============================================================================
+This file contains suppressions for cppcheck warnings that are either:
+- False positives
+- Intentional design decisions
+- Third-party code issues
+- Known acceptable patterns
+
+Usage:
+  cppcheck --suppressions-list=cppcheck-suppressions.xml src/ include/
+=============================================================================
+-->
+<suppressions>
+  <!-- Suppress missing system includes (common false positive) -->
+  <suppress id="missingIncludeSystem" />
+  
+  <!-- Suppress unused function warnings (entry points and callbacks) -->
+  <suppress id="unusedFunction">
+    <fileName>main.cpp</fileName>
+  </suppress>
+  
+  <!-- Suppress for test files -->
+  <suppress id="unusedFunction">
+    <fileName>test_*.cpp</fileName>
+  </suppress>
+  <suppress id="unusedFunction">
+    <fileName>test_*.c</fileName>
+  </suppress>
+  
+  <!-- LLVM-related suppressions -->
+  <suppress id="unknownMacro">
+    <symbolName>LLVM*</symbolName>
+  </suppress>
+  
+  <!-- Allow C-style casts in LLVM backend (LLVM API uses them) -->
+  <suppress id="cstyleCast">
+    <fileName>llvm_backend/*</fileName>
+  </suppress>
+  
+  <!-- Suppress variable scope warnings for parser/lexer (intentional) -->
+  <suppress id="variableScope">
+    <fileName>parser.cpp</fileName>
+  </suppress>
+  <suppress id="variableScope">
+    <fileName>lexer.cpp</fileName>
+  </suppress>
+  
+  <!-- Suppress shadow variable warnings in generated code -->
+  <suppress id="shadowVariable">
+    <fileName>llvm_backend/*</fileName>
+  </suppress>
+  
+  <!-- Suppress passedByValue for small types (intentional optimization) -->
+  <suppress id="passedByValue">
+    <fileName>token.cpp</fileName>
+  </suppress>
+  
+  <!-- Suppress invalid scanf format for custom types -->
+  <suppress id="invalidScanfFormatWidth">
+    <fileName>*.c</fileName>
+  </suppress>
+  
+  <!-- Suppress knownConditionTrueFalse for parser state machine -->
+  <suppress id="knownConditionTrueFalse">
+    <fileName>parser.cpp</fileName>
+  </suppress>
+  
+  <!-- Suppress duplicateBranch for switch cases -->
+  <suppress id="duplicateBranch">
+    <fileName>parser.cpp</fileName>
+  </suppress>
+  
+  <!-- Suppress unmatched suppression warnings -->
+  <suppress id="unmatchedSuppression" />
+</suppressions>
