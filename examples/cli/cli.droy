@@ -1,0 +1,38 @@
+// CLI Application Example
+// =======================
+
+pkg "cli-app"
+
+f show_help() {
+    em "CLI Tool v1.0.0"
+    em ""
+    em "Usage:"
+    em "  droy run cli.droy [command]"
+    em ""
+    em "Commands:"
+    em "  hello    Print hello message"
+    em "  time     Show current time"
+    em "  version  Show version"
+    em "  help     Show this help"
+}
+
+f main() {
+    // Get command from arguments
+    fe (@argc > 1) {
+        ~s cmd = @argv[1]
+        
+        fe (cmd == "hello") {
+            em "Hello from CLI!"
+        } else fe (cmd == "time") {
+            em "Current time: " + time()
+        } else fe (cmd == "version") {
+            em "CLI Tool v1.0.0"
+        } else {
+            show_help()
+        }
+    } else {
+        show_help()
+    }
+}
+
+main()
