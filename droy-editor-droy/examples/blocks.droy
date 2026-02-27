@@ -1,0 +1,53 @@
+// Blocks Example
+// ===============
+
+// Define a reusable block
+block greetBlock {
+    ~s @si = "Hello"
+    ~s @ui = "World"
+    em @si + " " + @ui + "!"
+}
+
+// Use the block multiple times
+em "First call:"
+greetBlock
+
+em ""
+em "Second call:"
+greetBlock
+
+em ""
+em "Third call:"
+greetBlock
+
+// Block with counter
+~s @counter = 1
+
+block countBlock {
+    em "Count: " + @counter
+    ~s @counter = @counter + 1
+}
+
+em ""
+em "Counter block:"
+countBlock
+countBlock
+countBlock
+
+// Nested block example
+block outerBlock {
+    em "Outer block started"
+    
+    block innerBlock {
+        em "  Inner block executed"
+    }
+    
+    innerBlock
+    em "Outer block ended"
+}
+
+em ""
+em "Nested blocks:"
+outerBlock
+
+ret "Blocks example complete!"
