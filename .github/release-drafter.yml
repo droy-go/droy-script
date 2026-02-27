@@ -1,0 +1,148 @@
+# =============================================================================
+# Droy Language - Release Drafter Configuration
+# =============================================================================
+# This file configures the Release Drafter GitHub Action which automatically
+# creates and updates release notes based on merged pull requests.
+# For more information: https://github.com/release-drafter/release-drafter
+# =============================================================================
+
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'enhancement'
+      - 'feature'
+  
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+      - 'fix'
+  
+  - title: '📚 Documentation'
+    labels:
+      - 'documentation'
+      - 'docs'
+  
+  - title: '⚡ Performance'
+    labels:
+      - 'performance'
+      - 'optimization'
+  
+  - title: '🔧 Maintenance'
+    labels:
+      - 'chore'
+      - 'maintenance'
+      - 'refactor'
+  
+  - title: '🧪 Testing'
+    labels:
+      - 'testing'
+      - 'test'
+  
+  - title: '🔒 Security'
+    labels:
+      - 'security'
+      - 'vulnerability'
+  
+  - title: '📦 Dependencies'
+    labels:
+      - 'dependencies'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions
+
+version-resolver:
+  major:
+    labels:
+      - 'major'
+      - 'breaking-change'
+  minor:
+    labels:
+      - 'minor'
+      - 'enhancement'
+      - 'feature'
+  patch:
+    labels:
+      - 'patch'
+      - 'bug'
+      - 'fix'
+      - 'documentation'
+      - 'maintenance'
+  default: patch
+
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  ## Contributors
+
+  Thank you to all the contributors who made this release possible!
+
+  $CONTRIBUTORS
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+footer: |
+  ## 📦 Installation
+
+  ### Linux/macOS
+  ```bash
+  # Download the latest release
+  wget https://github.com/droy-go/droy-lang/releases/download/v$RESOLVED_VERSION/droy-lang-linux-amd64.tar.gz
+  
+  # Extract
+  tar -xzf droy-lang-linux-amd64.tar.gz
+  
+  # Install
+  sudo cp droy-lang/droy-helper /usr/local/bin/
+  ```
+
+  ### Windows
+  Download the Windows release from the assets above and extract to your desired location.
+
+  ## 📖 Documentation
+
+  For more information, visit our [documentation site](https://droy-go.github.io/droy-lang/).
+
+  ## 🐛 Reporting Issues
+
+  Found a bug? Please [open an issue](https://github.com/droy-go/droy-lang/issues/new/choose).
+
+  ## 🤝 Contributing
+
+  Want to contribute? Check out our [Contributing Guide](https://github.com/droy-go/droy-lang/blob/main/CONTRIBUTING.md).
+
+autolabeler:
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - '/fix/i'
+  
+  - label: 'enhancement'
+    branch:
+      - '/feature\/.+/'
+    title:
+      - '/feat/i'
+  
+  - label: 'documentation'
+    branch:
+      - '/docs\/.+/'
+    files:
+      - '*.md'
+      - 'docs/**'
+  
+  - label: 'performance'
+    branch:
+      - '/perf\/.+/'
+    title:
+      - '/perf/i'
+  
+  - label: 'refactor'
+    branch:
+      - '/refactor\/.+/'
+    title:
+      - '/refactor/i'
