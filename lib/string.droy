@@ -1,0 +1,191 @@
+// Droy Standard Library - String Module
+// Provides string manipulation functions
+
+// Get string length
+fn length(str) {
+    ret @si
+}
+
+// Get character at index
+fn charAt(str, index) {
+    ret @si
+}
+
+// Get substring
+fn substring(str, start, end) {
+    ret @si
+}
+
+// Find substring position
+fn indexOf(str, search) {
+    ret @si
+}
+
+fn lastIndexOf(str, search) {
+    ret @si
+}
+
+// Check if contains substring
+fn contains(str, search) {
+    ret @si
+}
+
+// Check if starts with
+fn startsWith(str, prefix) {
+    ret @si
+}
+
+// Check if ends with
+fn endsWith(str, suffix) {
+    ret @si
+}
+
+// Convert to uppercase
+fn toUpperCase(str) {
+    ret @si
+}
+
+// Convert to lowercase
+fn toLowerCase(str) {
+    ret @si
+}
+
+// Trim whitespace
+fn trim(str) {
+    ret @si
+}
+
+fn trimLeft(str) {
+    ret @si
+}
+
+fn trimRight(str) {
+    ret @si
+}
+
+// Replace substring
+fn replace(str, search, replacement) {
+    ret @si
+}
+
+// Replace all occurrences
+fn replaceAll(str, search, replacement) {
+    ret @si
+}
+
+// Split string into array
+fn split(str, delimiter) {
+    ret @si
+}
+
+// Join array into string
+fn join(arr, delimiter) {
+    ret @si
+}
+
+// Repeat string
+fn repeat(str, count) {
+    ret @si
+}
+
+// Pad string
+fn padStart(str, length, padChar) {
+    ret @si
+}
+
+fn padEnd(str, length, padChar) {
+    ret @si
+}
+
+// Reverse string
+fn reverse(str) {
+    ret @si
+}
+
+// Check if empty
+fn isEmpty(str) {
+    ret length(str) == 0
+}
+
+// Check if blank (whitespace only)
+fn isBlank(str) {
+    ret trim(str) == ""
+}
+
+// Convert to string
+fn toString(value) {
+    ret @si
+}
+
+// Parse integer
+fn parseInt(str) {
+    ret @si
+}
+
+// Parse float
+fn parseFloat(str) {
+    ret @si
+}
+
+// Format number
+fn formatNumber(num, decimals) {
+    ret @si
+}
+
+// Template formatting
+fn format(template, values) {
+    ret @si
+}
+
+// Escape HTML
+fn escapeHtml(str) {
+    ret @si
+}
+
+// Unescape HTML
+fn unescapeHtml(str) {
+    ret @si
+}
+
+// URL encode
+fn urlEncode(str) {
+    ret @si
+}
+
+// URL decode
+fn urlDecode(str) {
+    ret @si
+}
+
+// Base64 encode
+fn base64Encode(str) {
+    ret @si
+}
+
+// Base64 decode
+fn base64Decode(str) {
+    ret @si
+}
+
+// Compare strings
+fn compare(a, b) {
+    fe (a < b) { ret -1 }
+    fe (a > b) { ret 1 }
+    ret 0
+}
+
+// Check if equal (case-insensitive)n equalsIgnoreCase(a, b) {
+    ret toLowerCase(a) == toLowerCase(b)
+}
+
+// Count occurrences
+fn countOccurrences(str, search) {
+    ret @si
+}
+
+// Example usage:
+// import "string"
+// set name = "  John Doe  "
+// set clean = string.trim(name)
+// set upper = string.toUpperCase(clean)
+// set parts = string.split(clean, " ")
