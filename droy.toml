@@ -1,0 +1,102 @@
+# Droy Language Configuration File
+# https://droy-lang.org/config
+
+[package]
+name = "droy-lang"
+version = "1.0.1"
+description = "A complete markup and programming language"
+authors = ["Droy Team <team@droy-lang.org>"]
+license = "MIT"
+repository = "https://github.com/droy-go/droy-lang"
+homepage = "https://droy-lang.org"
+documentation = "https://droy-lang.blogspot.com/"
+keywords = ["language", "compiler", "llvm", "programming"]
+categories = ["development-tools", "compilers"]
+edition = "2026"
+
+[dependencies]
+# Standard library modules
+std = { version = "1.0.1", features = ["full"] }
+
+# External dependencies (planned)
+# llvm = { version = "14.0", optional = true }
+# json = { version = "1.0", optional = true }
+
+[features]
+default = ["io", "math", "string", "time", "array"]
+full = ["io", "math", "string", "time", "array", "map", "json", "http", "crypto"]
+io = []
+math = []
+string = []
+time = []
+array = []
+map = []
+json = []
+http = []
+crypto = []
+llvm = []
+
+[build]
+target = "native"
+optimization = 2
+debug = false
+
+[build.compiler]
+cc = "gcc"
+cxx = "g++"
+flags = ["-Wall", "-Wextra"]
+
+[build.llvm]
+enabled = true
+version = "14"
+path = "/usr/lib/llvm-14"
+
+[test]
+verbose = true
+parallel = true
+coverage = false
+
+[test.sanitizers]
+address = false
+memory = false
+undefined = false
+
+[documentation]
+enabled = true
+output = "docs/generated"
+
+[lint]
+enabled = true
+tools = ["clang-tidy", "cppcheck"]
+
+[format]
+enabled = true
+tool = "clang-format"
+
+[editor]
+enabled = true
+port = 3000
+host = "localhost"
+
+[package.registry]
+url = "https://registry.droy-lang.org"
+index = "https://github.com/droy-go/droy-registry"
+
+[package.publish]
+allowed = true
+verify = true
+
+[profile.release]
+opt-level = 3
+debug = false
+lto = true
+
+[profile.debug]
+opt-level = 0
+debug = true
+sanitizers = true
+
+[profile.test]
+opt-level = 0
+debug = true
+coverage = true
