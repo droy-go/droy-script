@@ -1,0 +1,52 @@
+// Droy Fibonacci Example
+// Calculate Fibonacci numbers
+
+// Function to calculate Fibonacci number
+f fibonacci(n) {
+    fe (n <= 0) {
+        ret 0
+    }
+    fe (n == 1) {
+        ret 1
+    }
+    ret fibonacci(n - 1) + fibonacci(n - 2)
+}
+
+// Function to calculate Fibonacci iteratively
+f fibonacciIterative(n) {
+    fe (n <= 0) { ret 0 }
+    fe (n == 1) { ret 1 }
+    
+    set prev = 0
+    set curr = 1
+    set i = 2
+    
+    while (i <= n) {
+        set next = prev + curr
+        set prev = curr
+        set curr = next
+        i = i + 1
+    }
+    
+    ret curr
+}
+
+// Print Fibonacci sequence
+em "=== Fibonacci Sequence ==="
+set count = 10
+
+em "First " + count + " Fibonacci numbers:"
+set i = 0
+while (i < count) {
+    em "F(" + i + ") = " + fibonacciIterative(i)
+    i = i + 1
+}
+
+// Calculate specific Fibonacci number
+set n = 20
+em ""
+em "Fibonacci number at position " + n + ":"
+em "Recursive: " + fibonacci(n)
+em "Iterative: " + fibonacciIterative(n)
+
+*/Running
