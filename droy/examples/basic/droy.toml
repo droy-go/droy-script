@@ -1,0 +1,26 @@
+# Basic Droy Package Example
+name = "basic-example"
+version = "1.0.0"
+description = "A basic example package for Droy"
+author = "Droy Team"
+license = "MIT"
+repository = "https://github.com/droy-go/droy-pm"
+keywords = ["example", "basic", "droy"]
+
+# Droy version requirement
+droy_version = ">=1.0.0"
+
+# Entry point
+main = "src/main.droy"
+
+# Scripts
+[scripts]
+build = "droy build src/main.droy"
+test = "droy test"
+run = "droy run src/main.droy"
+
+# No dependencies for this basic example
+[dependencies]
+
+# Dev dependencies
+[devDependencies]
