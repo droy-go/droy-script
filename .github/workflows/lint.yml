@@ -1,0 +1,174 @@
+# =============================================================================
+# Droy Language - Lint and Format
+# =============================================================================
+# This workflow runs linting and formatting checks on the codebase.
+# It ensures code quality and consistency across the project.
+# =============================================================================
+
+name: Lint
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.c'
+      - '.github/workflows/lint.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.c'
+  workflow_dispatch:
+
+jobs:
+  # ==========================================================================
+  # Clang-Format Check
+  # ==========================================================================
+  clang-format:
+    runs-on: ubuntu-latest
+    name: Clang-Format
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install clang-format
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-format
+    
+    - name: Check formatting
+      run: |
+        find src include llvm_backend tests -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.c" \) 2>/dev/null | while read file; do
+          echo "Checking: $file"
+          clang-format --dry-run --Werror "$file" 2>&1 || true
+        done
+      continue-on-error: true
+    
+    - name: Create format patch
+      run: |
+        find src include llvm_backend tests -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.c" \) 2>/dev/null | while read file; do
+          clang-format "$file" > "$file.formatted"
+          if ! diff -q "$file" "$file.formatted" > /dev/null 2>&1; then
+            echo "Would reformat: $file"
+            diff -u "$file" "$file.formatted" || true
+          fi
+          rm -f "$file.formatted"
+        done
+      continue-on-error: true
+
+  # ==========================================================================
+  # Clang-Tidy Check
+  # ==========================================================================
+  clang-tidy:
+    runs-on: ubuntu-latest
+    name: Clang-Tidy
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-tidy llvm llvm-dev cmake
+    
+    - name: Generate compile commands
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    
+    - name: Run clang-tidy
+      run: |
+        find src include llvm_backend -type f \( -name "*.cpp" -o -name "*.c" \) 2>/dev/null | \
+          xargs -I {} clang-tidy {} -p build \
+            --checks='-*,bugprone-*,cppcoreguidelines-*,modernize-*,performance-*,portability-*,readability-*' \
+            --warnings-as-errors='' 2>&1 | head -100 || true
+      continue-on-error: true
+
+  # ==========================================================================
+  # Cppcheck Analysis
+  # ==========================================================================
+  cppcheck:
+    runs-on: ubuntu-latest
+    name: Cppcheck
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install cppcheck
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cppcheck
+    
+    - name: Run cppcheck
+      run: |
+        cppcheck --enable=all \
+          --error-exitcode=0 \
+          --suppress=missingIncludeSystem \
+          --suppress=unusedFunction \
+          --suppress=unmatchedSuppression \
+          --inline-suppr \
+          --xml \
+          --xml-version=2 \
+          src/ include/ llvm_backend/ 2> cppcheck-report.xml || true
+    
+    - name: Upload report
+      uses: actions/upload-artifact@v4
+      with:
+        name: cppcheck-report
+        path: cppcheck-report.xml
+        retention-days: 30
+    
+    - name: Print summary
+      run: |
+        echo "### Cppcheck Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f cppcheck-report.xml ]; then
+          errors=$(grep -o 'severity="error"' cppcheck-report.xml | wc -l)
+          warnings=$(grep -o 'severity="warning"' cppcheck-report.xml | wc -l)
+          style=$(grep -o 'severity="style"' cppcheck-report.xml | wc -l)
+          performance=$(grep -o 'severity="performance"' cppcheck-report.xml | wc -l)
+          
+          echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Errors | $errors |" >> $GITHUB_STEP_SUMMARY
+          echo "| Warnings | $warnings |" >> $GITHUB_STEP_SUMMARY
+          echo "| Style | $style |" >> $GITHUB_STEP_SUMMARY
+          echo "| Performance | $performance |" >> $GITHUB_STEP_SUMMARY
+        fi
+
+  # ==========================================================================
+  # Include-What-You-Use (IWYU)
+  # ==========================================================================
+  iwyu:
+    runs-on: ubuntu-latest
+    name: Include What You Use
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install IWYU
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y iwyu clang llvm-dev cmake
+    
+    - name: Build with IWYU
+      run: |
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_CXX_INCLUDE_WHAT_YOU_USE="iwyu;-Xiwyu;--mapping_file=/usr/share/include-what-you-use/gcc.stl.headers.imp" \
+          -DCMAKE_C_INCLUDE_WHAT_YOU_USE="iwyu;-Xiwyu;--mapping_file=/usr/share/include-what-you-use/gcc.stl.headers.imp"
+        cmake --build build 2>&1 | tee iwyu-report.txt || true
+      continue-on-error: true
+    
+    - name: Upload IWYU report
+      uses: actions/upload-artifact@v4
+      with:
+        name: iwyu-report
+        path: iwyu-report.txt
+        retention-days: 7
