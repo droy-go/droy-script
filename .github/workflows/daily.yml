@@ -1,0 +1,87 @@
+# =============================================================================
+# Droy Language - Daily Tests
+# =============================================================================
+# This workflow runs daily tests to ensure stability.
+# =============================================================================
+
+name: Daily Tests
+
+on:
+  schedule:
+    # Run daily at 02:00 UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  # ===========================================================================
+  # Full Test Suite
+  # ===========================================================================
+  full-test:
+    name: Full Test Suite
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            llvm-dev \
+            valgrind \
+            cppcheck
+      
+      - name: Build
+        run: make -j$(nproc)
+      
+      - name: Run all tests
+        run: ./scripts/run-tests.sh -a
+      
+      - name: Run Valgrind
+        run: |
+          valgrind --leak-check=full --error-exitcode=1 \
+            ./bin/droy examples/hello.droy
+      
+      - name: Notify on failure
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: 'Daily tests failed! Please check the logs.'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # ===========================================================================
+  # Performance Benchmarks
+  # ===========================================================================
+  benchmark:
+    name: Performance Benchmarks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+      
+      - name: Build release
+        run: make -j$(nproc)
+      
+      - name: Run benchmarks
+        run: |
+          echo "Running performance benchmarks..."
+          time ./bin/droy examples/fibonacci.droy
+          time ./bin/droy examples/sorting.droy
+      
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: 'customSmallerIsBetter'
+          output-file-path: benchmark-results.txt
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
