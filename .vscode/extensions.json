@@ -1,0 +1,51 @@
+{
+    // =============================================================================
+    // Droy Language - VS Code Recommended Extensions
+    // =============================================================================
+    // These extensions are recommended for working with Droy Language.
+    // VS Code will prompt you to install them when you open the project.
+    // =============================================================================
+    
+    "recommendations": [
+        // C/C++ Development
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        
+        // Code Quality
+        "jbenden.c-cpp-flylint",
+        "mitaki28.vscode-clang",
+        "notskm.clang-tidy",
+        
+        // Debugging
+        "vadimcn.vscode-lldb",
+        "webfreak.debug",
+        
+        // Git
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        
+        // Documentation
+        "yzhang.markdown-all-in-one",
+        "bierner.markdown-preview-github-styles",
+        
+        // Utilities
+        "gruntfuggly.todo-tree",
+        "aaron-bond.better-comments",
+        "usernamehw.errorlens",
+        "streetsidesoftware.code-spell-checker",
+        
+        // Docker
+        "ms-azuretools.vscode-docker",
+        
+        // Theme & Icons
+        "pkief.material-icon-theme",
+        "zhuangtongfa.material-theme"
+    ],
+    
+    "unwantedRecommendations": [
+        // Extensions that might conflict with our setup
+        "ms-vscode.vscode-typescript-next"
+    ]
+}
