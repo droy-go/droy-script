@@ -1,0 +1,20 @@
+// Droy Helper Language - Hello World Example
+// ===========================================
+
+// Using Droy shorthand syntax
+~s @si = "Hello"
+~s @ui = "World"
+
+// Using full syntax
+set @yui = "!"
+
+// Output text
+text @si
+text @ui
+text @yui
+
+// Using em to output expression
+em @si + " " + @ui + @yui
+
+// Return the greeting
+~r @si + " " + @ui + @yui
