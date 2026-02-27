@@ -1,0 +1,36 @@
+# Droy Code Editor Configuration
+# ==============================
+
+[project]
+name = "droy-editor"
+version = "1.0.0"
+description = "A complete code editor written in Droy language"
+author = "Droy Language Team"
+license = "MIT"
+
+[build]
+entry = "src/main.droy"
+output = "droy-editor"
+optimize = true
+
+[dependencies]
+core = "1.0.0"
+ui = "1.0.0"
+
+[settings]
+theme = "dark"
+font_size = 14
+tab_size = 4
+word_wrap = true
+line_numbers = true
+minimap = true
+
+[shortcuts]
+run = "Ctrl+R"
+save = "Ctrl+S"
+new_file = "Ctrl+N"
+open_file = "Ctrl+O"
+undo = "Ctrl+Z"
+redo = "Ctrl+Y"
+find = "Ctrl+F"
+replace = "Ctrl+H"
