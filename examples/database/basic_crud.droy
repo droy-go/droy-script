@@ -1,0 +1,70 @@
+// Droy Database - Basic CRUD Example
+// ===================================
+
+// Create a database connection
+set db = database "myapp" type: memory
+
+// Define a users table schema
+set users = db.table "users" schema: {
+    id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+    name: TEXT NOT_NULL
+    email: TEXT UNIQUE NOT_NULL
+    age: INTEGER
+    active: BOOLEAN DEFAULT: true
+    created_at: DATETIME
+}
+
+// INSERT - Create new records
+set user1 = users.insert {
+    name: "Alice Johnson"
+    email: "alice@example.com"
+    age: 28
+}
+
+set user2 = users.insert {
+    name: "Bob Smith"
+    email: "bob@example.com"
+    age: 35
+}
+
+set user3 = users.insert {
+    name: "Carol White"
+    email: "carol@example.com"
+    age: 22
+}
+
+// SELECT - Query all users
+set allUsers = db.query "SELECT * FROM users"
+em "Total users: " + allUsers.count()
+
+// SELECT with WHERE clause
+set activeUsers = users.where { active: true }.order("name").query()
+em "Active users: " + activeUsers.count()
+
+// SELECT with filter
+set adults = users.where { age: { $gte: 18 } }.query()
+em "Adult users: " + adults.count()
+
+// SELECT single record
+set alice = users.where { email: "alice@example.com" }.first()
+em "Found: " + alice.name
+
+// UPDATE - Modify records
+set updated = users.update {
+    where: { name: "Bob Smith" }
+    set: { age: 36 }
+}
+em "Updated " + updated + " record(s)"
+
+// DELETE - Remove records
+set deleted = users.delete {
+    where: { age: { $lt: 25 } }
+}
+em "Deleted " + deleted + " record(s)"
+
+// Final count
+set remaining = users.query()
+em "Remaining users: " + remaining.count()
+
+// Return
+ret remaining.count()
