@@ -1,0 +1,188 @@
+# =============================================================================
+# Droy Language - GitHub Labels Configuration
+# =============================================================================
+# This file defines the labels used in the GitHub repository.
+# Can be synced using: https://github.com/crazy-max/ghaction-github-labeler
+# =============================================================================
+
+# =============================================================================
+# Type Labels
+# =============================================================================
+- name: bug
+  color: d73a4a
+  description: Something isn't working
+
+- name: enhancement
+  color: a2eeef
+  description: New feature or request
+
+- name: documentation
+  color: 0075ca
+  description: Improvements or additions to documentation
+
+- name: question
+  color: d876e3
+  description: Further information is requested
+
+# =============================================================================
+# Priority Labels
+# =============================================================================
+- name: priority-critical
+  color: b60205
+  description: Critical priority - fix immediately
+
+- name: priority-high
+  color: d93f0b
+  description: High priority
+
+- name: priority-medium
+  color: fbca04
+  description: Medium priority
+
+- name: priority-low
+  color: 0e8a16
+  description: Low priority
+
+# =============================================================================
+# Status Labels
+# =============================================================================
+- name: triage
+  color: f9d0c4
+  description: Needs triage
+
+- name: in-progress
+  color: ffd700
+  description: Currently being worked on
+
+- name: blocked
+  color: 000000
+  description: Blocked by another issue or dependency
+
+- name: duplicate
+  color: cfd3d7
+  description: This issue or PR already exists
+
+- name: wontfix
+  color: ffffff
+  description: This won't be worked on
+
+- name: invalid
+  color: e4e669
+  description: This doesn't seem right
+
+# =============================================================================
+# Component Labels
+# =============================================================================
+- name: component-lexer
+  color: 0052cc
+  description: Related to the lexer/tokenizer
+
+- name: component-parser
+  color: 0052cc
+  description: Related to the parser
+
+- name: component-ast
+  color: 0052cc
+  description: Related to the AST
+
+- name: component-interpreter
+  color: 0052cc
+  description: Related to the interpreter
+
+- name: component-llvm
+  color: 0052cc
+  description: Related to the LLVM backend
+
+- name: component-stdlib
+  color: 0052cc
+  description: Related to the standard library
+
+- name: component-build
+  color: 0052cc
+  description: Related to the build system
+
+- name: component-ci
+  color: 0052cc
+  description: Related to CI/CD
+
+- name: component-docs
+  color: 0052cc
+  description: Related to documentation
+
+# =============================================================================
+# Platform Labels
+# =============================================================================
+- name: platform-linux
+  color: 1d76db
+  description: Linux specific
+
+- name: platform-macos
+  color: 1d76db
+  description: macOS specific
+
+- name: platform-windows
+  color: 1d76db
+  description: Windows specific
+
+# =============================================================================
+# Good First Issue Labels
+# =============================================================================
+- name: good first issue
+  color: 7057ff
+  description: Good for newcomers
+
+- name: help wanted
+  color: 008672
+  description: Extra attention is needed
+
+- name: beginner-friendly
+  color: 7057ff
+  description: Suitable for beginners
+
+# =============================================================================
+# Performance Labels
+# =============================================================================
+- name: performance
+  color: ff7619
+  description: Performance related
+
+- name: memory
+  color: ff7619
+  description: Memory related issues
+
+- name: optimization
+  color: ff7619
+  description: Code optimization
+
+# =============================================================================
+# Security Labels
+# =============================================================================
+- name: security
+  color: ff0000
+  description: Security related
+
+- name: vulnerability
+  color: ff0000
+  description: Security vulnerability
+
+# =============================================================================
+# Testing Labels
+# =============================================================================
+- name: testing
+  color: 5319e7
+  description: Related to testing
+
+- name: test-failure
+  color: 5319e7
+  description: Test is failing
+
+# =============================================================================
+# Release Labels
+# =============================================================================
+- name: breaking-change
+  color: b60205
+  description: Breaking change
+
+- name: deprecation
+  color: f9d0c4
+  description: Feature deprecation
