@@ -1,0 +1,122 @@
+# Droy Language - Git Attributes
+# https://git-scm.com/docs/gitattributes
+
+# Auto detect text files
+* text=auto
+
+# Source code
+*.c text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.hpp text eol=lf
+*.go text eol=lf
+*.droy text eol=lf
+
+# Scripts
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+*.ps1 text eol=crlf
+
+# Web files
+*.js text eol=lf
+*.ts text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.less text eol=lf
+
+# Data files
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.xml text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.conf text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+*.rst text eol=lf
+
+# Build files
+Makefile text eol=lf
+CMakeLists.txt text eol=lf
+Dockerfile text eol=lf
+docker-compose.yml text eol=lf
+
+# Configuration
+.editorconfig text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.clang-format text eol=lf
+.clang-tidy text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.a binary
+*.o binary
+
+# Archives
+*.7z binary
+*.gz binary
+*.jar binary
+*.rar binary
+*.tar binary
+*.tgz binary
+*.zip binary
+
+# Documents
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+
+# Fonts
+*.eot binary
+*.otf binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+
+# Audio/Video
+*.mp3 binary
+*.mp4 binary
+*.ogg binary
+*.wav binary
+*.webm binary
+
+# Diff behavior
+*.droy diff=cpp
+*.c diff=cpp
+*.cpp diff=cpp
+*.h diff=cpp
+*.hpp diff=cpp
+*.go diff=golang
+*.html diff=html
+*.css diff=css
+
+# Merge behavior
+*.droy merge=union
+*.md merge=union
+
+# Linguist overrides
+*.droy linguist-language=Droy
+*.h linguist-language=C
