@@ -1,0 +1,119 @@
+name: 🚀 Performance Issue
+description: Report a performance problem or regression in Droy Language
+title: "[PERF] "
+labels: ["performance", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🚀 Performance Issue
+        Report a performance problem, bottleneck, or regression to help us improve Droy Language.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Performance Issue Description
+      description: Describe the performance issue you're experiencing
+      placeholder: A clear description of the performance problem...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Issue Type
+      description: What type of performance issue is this?
+      options:
+        - Compilation is slow
+        - Runtime execution is slow
+        - Memory usage is high
+        - Binary size is large
+        - Regression (was faster before)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: benchmark
+    attributes:
+      label: Benchmark / Reproduction
+      description: Provide code or steps to reproduce the performance issue
+      placeholder: |
+        ```droy
+        // Code that demonstrates the performance issue
+        // Include timing information if possible
+        ```
+      render: droy
+    validations:
+      required: true
+
+  - type: textarea
+    id: metrics
+    attributes:
+      label: Performance Metrics
+      description: Provide specific performance numbers
+      placeholder: |
+        - Current performance: X seconds / Y MB memory
+        - Expected performance: Z seconds / W MB memory
+        - Comparison baseline (if applicable)
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What operating system are you using?
+      options:
+        - Ubuntu 20.04
+        - Ubuntu 22.04
+        - Ubuntu 24.04
+        - macOS 12 (Monterey)
+        - macOS 13 (Ventura)
+        - macOS 14 (Sonoma)
+        - Windows 10
+        - Windows 11
+        - Other
+
+  - type: input
+    id: version
+    attributes:
+      label: Droy Version
+      description: What version of Droy are you using?
+      placeholder: e.g., 1.0.0, commit hash
+
+  - type: dropdown
+    id: build_type
+    attributes:
+      label: Build Type
+      description: What build type are you using?
+      options:
+        - Debug
+        - Release
+        - RelWithDebInfo
+
+  - type: textarea
+    id: profile
+    attributes:
+      label: Profiling Data
+      description: If available, attach profiling data (gprof, perf, etc.)
+      placeholder: |
+        ```
+        Paste profiling output here
+        ```
+      render: shell
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information
+      placeholder: Hardware specs, compiler flags, etc.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have tested with the Release build
+          required: true
+        - label: I have provided specific performance metrics
+          required: true
