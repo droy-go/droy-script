@@ -1,0 +1,78 @@
+# =============================================================================
+# Droy Language - Docker Ignore File
+# =============================================================================
+# This file specifies files and directories that should be excluded when
+# building Docker images.
+# =============================================================================
+
+# Git
+.git
+.gitignore
+.gitattributes
+.gitmessage
+.mailmap
+.git-blame-ignore-revs
+
+# GitHub
+.github
+
+# Documentation
+*.md
+docs/
+!docs/Doxyfile
+
+# Build artifacts
+build/
+cmake-build-*/
+obj/
+bin/
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.dylib
+*.exe
+
+# IDE
+.vscode/
+.idea/
+*.iml
+.vs/
+
+# Testing
+test-results/
+coverage/
+*.gcov
+*.gcno
+*.gcda
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Archives
+*.tar.gz
+*.zip
+*.7z
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.travis.yml
+.appveyor.yml
+.gitlab-ci.yml
+
+# Dependencies (if using package managers)
+node_modules/
+vendor/
