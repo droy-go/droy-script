@@ -1,0 +1,48 @@
+// Calculator Example
+// ===================
+
+// Variables
+var a = 10
+var b = 5
+
+// Addition
+em a + " + " + b + " = " + (a + b)
+
+// Subtraction
+em a + " - " + b + " = " + (a - b)
+
+// Multiplication
+em a + " * " + b + " = " + (a * b)
+
+// Division
+if b != 0 {
+    em a + " / " + b + " = " + (a / b)
+}
+
+// Functions
+fn add(x, y) {
+    ret x + y
+}
+
+fn subtract(x, y) {
+    ret x - y
+}
+
+fn multiply(x, y) {
+    ret x * y
+}
+
+fn divide(x, y) {
+    if y != 0 {
+        ret x / y
+    }
+    ret "Error: Division by zero"
+}
+
+// Using functions
+em "add(10, 5) = " + add(10, 5)
+em "subtract(10, 5) = " + subtract(10, 5)
+em "multiply(10, 5) = " + multiply(10, 5)
+em "divide(10, 5) = " + divide(10, 5)
+
+ret "Calculator complete!"
