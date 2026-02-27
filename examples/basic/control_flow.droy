@@ -1,0 +1,44 @@
+// Control Flow Example
+// ====================
+
+pkg "control-flow"
+
+// If statements
+~s age = 25
+
+fe (age >= 18) {
+    em "You are an adult"
+} else {
+    em "You are a minor"
+}
+
+// For loop
+em ""
+em "For loop (0 to 4):"
+for (~s i = 0; i < 5; i = i + 1) {
+    em "  i = " + i
+}
+
+// While loop
+em ""
+em "While loop:"
+~s count = 0
+while (count < 5) {
+    em "  count = " + count
+    count = count + 1
+}
+
+// Nested if
+em ""
+em "Nested conditions:"
+~s score = 85
+
+fe (score >= 90) {
+    em "Grade: A"
+} else fe (score >= 80) {
+    em "Grade: B"
+} else fe (score >= 70) {
+    em "Grade: C"
+} else {
+    em "Grade: F"
+}
