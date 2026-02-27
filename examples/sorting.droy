@@ -1,0 +1,77 @@
+// Droy Sorting Example
+// Demonstrates various sorting algorithms
+
+// Bubble Sort
+f bubbleSort(arr, size) {
+    set i = 0
+    while (i < size - 1) {
+        set j = 0
+        while (j < size - i - 1) {
+            // Compare adjacent elements
+            fe (arr[j] > arr[j + 1]) {
+                // Swap
+                set temp = arr[j]
+                arr[j] = arr[j + 1]
+                arr[j + 1] = temp
+            }
+            j = j + 1
+        }
+        i = i + 1
+    }
+    ret arr
+}
+
+// Selection Sort
+f selectionSort(arr, size) {
+    set i = 0
+    while (i < size - 1) {
+        set minIdx = i
+        set j = i + 1
+        while (j < size) {
+            fe (arr[j] < arr[minIdx]) {
+                set minIdx = j
+            }
+            j = j + 1
+        }
+        // Swap
+        fe (minIdx != i) {
+            set temp = arr[i]
+            arr[i] = arr[minIdx]
+            arr[minIdx] = temp
+        }
+        i = i + 1
+    }
+    ret arr
+}
+
+// Print array
+f printArray(arr, size) {
+    set i = 0
+    text "["
+    while (i < size) {
+        ~e arr[i]
+        fe (i < size - 1) {
+            text ", "
+        }
+        i = i + 1
+    }
+    text "]"
+    text "\n"
+}
+
+// Main
+em "=== Sorting Algorithms ==="
+
+// Test array (simulated - in real implementation would use actual arrays)
+set arr1 = "64, 34, 25, 12, 22, 11, 90"
+set arr2 = "64, 34, 25, 12, 22, 11, 90"
+
+em "Original array: " + arr1
+
+// Note: This is a conceptual example
+// Real array implementation is planned for v1.2.0
+em ""
+em "Bubble Sort: Would sort the array in place"
+em "Selection Sort: Would sort the array in place"
+
+*/Running
