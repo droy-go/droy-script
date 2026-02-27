@@ -1,0 +1,34 @@
+// Droy Calculator Example
+// A simple calculator program demonstrating arithmetic operations
+
+// Get operands
+~s @si = 10
+~s @ui = 5
+
+// Perform calculations
+set sum = @si + @ui
+set difference = @si - @ui
+set product = @si * @ui
+set quotient = @si / @ui
+set remainder = @si % @ui
+
+// Display results
+em "=== Calculator Results ==="
+em "Numbers: " + @si + " and " + @ui
+em ""
+em "Addition: " + @si + " + " + @ui + " = " + sum
+em "Subtraction: " + @si + " - " + @ui + " = " + difference
+em "Multiplication: " + @si + " * " + @ui + " = " + product
+em "Division: " + @si + " / " + @ui + " = " + quotient
+em "Modulo: " + @si + " % " + @ui + " = " + remainder
+
+// Power calculation
+set power = @si
+set i = 1
+while (i < @ui) {
+    set power = power * @si
+    i = i + 1
+}
+em @si + "^" + @ui + " = " + power
+
+*/Running
