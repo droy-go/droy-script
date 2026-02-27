@@ -1,0 +1,10 @@
+// Hello World Example
+// ===================
+
+pkg "hello"
+
+// Set a variable
+~s @si = "Hello, World!"
+
+// Emit the message
+em @si
