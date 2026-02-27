@@ -1,0 +1,32 @@
+// Droy Language - Math Operations Example
+// ========================================
+
+// Basic arithmetic
+set a = 10
+set b = 5
+
+// Addition
+set sum = a + b
+em "10 + 5 = " + sum
+
+// Subtraction
+set diff = a - b
+em "10 - 5 = " + diff
+
+// Multiplication
+set product = a * b
+em "10 * 5 = " + product
+
+// Division
+set quotient = a / b
+em "10 / 5 = " + quotient
+
+// Complex expression
+set complex = (a + b) * 2 - 5
+em "Complex: (10 + 5) * 2 - 5 = " + complex
+
+// Using special variables in math
+@si = 25
+@ui = 4
+set result = @si / @ui
+em "25 / 4 = " + result
