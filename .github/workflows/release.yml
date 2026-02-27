@@ -1,0 +1,207 @@
+# =============================================================================
+# Droy Language - Release Workflow
+# =============================================================================
+# This workflow creates releases when a new version tag is pushed.
+# =============================================================================
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # ===========================================================================
+  # Build Release Artifacts
+  # ===========================================================================
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-x64
+            ext: ''
+          - os: macos-latest
+            target: macos-x64
+            ext: ''
+          - os: windows-latest
+            target: windows-x64
+            ext: '.exe'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential llvm-dev
+
+    - name: Install dependencies (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install llvm cmake
+
+    - name: Install dependencies (Windows)
+      if: matrix.os == 'windows-latest'
+      uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake
+
+    - name: Configure (Unix)
+      if: matrix.os != 'windows-latest'
+      run: |
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_TESTS=OFF \
+          -DBUILD_LLVM=ON
+
+    - name: Configure (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: msys2 {0}
+      run: |
+        cmake -B build \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_TESTS=OFF \
+          -DBUILD_LLVM=OFF
+
+    - name: Build (Unix)
+      if: matrix.os != 'windows-latest'
+      run: cmake --build build --parallel
+
+    - name: Build (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: msys2 {0}
+      run: cmake --build build --parallel
+
+    - name: Package
+      run: |
+        mkdir -p release
+        cp build/droy${{ matrix.ext }} release/
+        cp build/droyc${{ matrix.ext }} release/ 2>/dev/null || true
+        cp build/droy-llvm${{ matrix.ext }} release/ 2>/dev/null || true
+        cp -r lib release/
+        cp -r examples release/
+        cp README.md LICENSE CHANGELOG.md release/
+        cd release
+        tar -czf ../droy-${{ matrix.target }}.tar.gz *
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: droy-${{ matrix.target }}
+        path: droy-${{ matrix.target }}.tar.gz
+
+  # ===========================================================================
+  # Build Docker Image
+  # ===========================================================================
+  docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=tag
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  # ===========================================================================
+  # Create Release
+  # ===========================================================================
+  release:
+    needs: [build, docker]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+
+    - name: Generate changelog
+      id: changelog
+      run: |
+        echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+        cat CHANGELOG.md | head -100 >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        body: |
+          ## Droy Language ${{ github.ref_name }}
+          
+          ${{ env.CHANGELOG }}
+          
+          ### Installation
+          
+          #### Linux/macOS
+          ```bash
+          tar -xzf droy-linux-x64.tar.gz
+          sudo cp droy /usr/local/bin/
+          ```
+          
+          #### Windows
+          ```powershell
+          Expand-Archive droy-windows-x64.zip -DestinationPath C:\Program Files\Droy
+          ```
+          
+          #### Docker
+          ```bash
+          docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          ```
+        files: |
+          droy-linux-x64/droy-linux-x64.tar.gz
+          droy-macos-x64/droy-macos-x64.tar.gz
+          droy-windows-x64/droy-windows-x64.tar.gz
+        draft: false
+        prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
