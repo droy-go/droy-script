@@ -1,0 +1,74 @@
+// Droy Todo App Example
+// A simple todo list application
+
+// Todo item structure (conceptual - requires struct support)
+// struct TodoItem {
+//     id: number
+//     title: string
+//     completed: boolean
+//     createdAt: timestamp
+// }
+
+// Todo list
+set todos = ""
+set nextId = 1
+
+// Add todo
+f addTodo(title) {
+    set id = nextId
+    set nextId = nextId + 1
+    em "Added todo #" + id + ": " + title
+    ret id
+}
+
+// Complete todo
+f completeTodo(id) {
+    em "Completed todo #" + id
+    ret true
+}
+
+// Delete todo
+f deleteTodo(id) {
+    em "Deleted todo #" + id
+    ret true
+}
+
+// List todos
+f listTodos() {
+    em "=== Todo List ==="
+    em "(Conceptual example - array support coming in v1.2.0)"
+    em ""
+    em "1. [ ] Learn Droy Language"
+    em "2. [x] Install Droy compiler"
+    em "3. [ ] Build a project"
+}
+
+// Main application
+em "=== Droy Todo App ==="
+em ""
+
+// Add some todos
+addTodo("Learn Droy syntax")
+addTodo("Build a calculator")
+addTodo("Create a web app")
+
+em ""
+listTodos()
+
+em ""
+em "Features:"
+em "  - Add todos"
+em "  - Complete todos"
+em "  - Delete todos"
+em "  - List todos"
+em ""
+em "Note: Full array/object support coming in v1.2.0"
+
+// Styling for UI (if using web interface)
+sty {
+    set color = "#333"
+    set font = "Arial, sans-serif"
+    set background = "#f5f5f5"
+}
+
+*/Running
