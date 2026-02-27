@@ -1,0 +1,15 @@
+// Hello World Example
+// ====================
+
+// Using text command
+text "Hello, World!"
+
+// Using em command with expression
+em "Hello, " + "Droy!"
+
+// Using special variables
+~s @si = "Hello"
+~s @ui = "World"
+em @si + " " + @ui
+
+ret "Done!"
