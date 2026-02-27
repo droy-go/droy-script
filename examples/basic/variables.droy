@@ -1,0 +1,36 @@
+// Variables Example
+// =================
+
+pkg "variables"
+
+// Numbers
+~s x = 42
+~s pi = 3.14159
+~s negative = -10
+
+// Strings
+~s name = "Droy"
+~s greeting = "Hello, " + name + "!"
+
+// Booleans
+~s is_active = true
+~s is_done = false
+
+// Null
+~s nothing = null
+
+// Print all variables
+em "Numbers:"
+em "  x = " + x
+em "  pi = " + pi
+em "  negative = " + negative
+
+em ""
+em "Strings:"
+em "  name = " + name
+em "  greeting = " + greeting
+
+em ""
+em "Booleans:"
+em "  is_active = " + is_active
+em "  is_done = " + is_done
