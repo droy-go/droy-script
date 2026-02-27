@@ -1,0 +1,254 @@
+// Droy File Manager
+// ==================
+// File operations for Droy applications
+
+// ============================================
+// File Manager Class
+// ============================================
+
+class FileManager {
+    var currentDirectory: string
+    var files: map
+    
+    fn constructor() {
+        this.currentDirectory = "./"
+        this.files = {}
+    }
+    
+    fn init() {
+        em "File manager initialized"
+        ret true
+    }
+    
+    // ========================================
+    // File Operations
+    // ========================================
+    
+    // Save file to storage
+    fn saveFile(filename: string, content: string) {
+        em "Saving file: " + filename
+        
+        // Store in memory
+        this.files[filename] = {
+            name: filename,
+            content: content,
+            modified: this.getCurrentTimestamp()
+        }
+        
+        em "File saved: " + filename
+        ret true
+    }
+    
+    // Load file from storage
+    fn loadFile(filename: string) {
+        em "Loading file: " + filename
+        
+        var file = this.files[filename]
+        if file != null {
+            em "File loaded: " + filename
+            ret file.content
+        }
+        
+        em "File not found: " + filename
+        ret ""
+    }
+    
+    // Delete file
+    fn deleteFile(filename: string) {
+        em "Deleting file: " + filename
+        
+        if this.files[filename] != null {
+            delete this.files[filename]
+            em "File deleted: " + filename
+            ret true
+        }
+        
+        em "File not found: " + filename
+        ret false
+    }
+    
+    // Rename file
+    fn renameFile(oldName: string, newName: string) {
+        em "Renaming file: " + oldName + " -> " + newName
+        
+        if this.files[oldName] != null {
+            var file = this.files[oldName]
+            file.name = newName
+            this.files[newName] = file
+            delete this.files[oldName]
+            em "File renamed"
+            ret true
+        }
+        
+        ret false
+    }
+    
+    // Check if file exists
+    fn fileExists(filename: string) {
+        ret this.files[filename] != null
+    }
+    
+    // Get file info
+    fn getFileInfo(filename: string) {
+        var file = this.files[filename]
+        if file != null {
+            ret file
+        }
+        ret null
+    }
+    
+    // ========================================
+    // Directory Operations
+    // ========================================
+    
+    // List files in directory
+    fn listFiles() {
+        var fileList = []
+        
+        // Iterate through files map
+        for var filename in this.files {
+            fileList.push(filename)
+        }
+        
+        ret fileList
+    }
+    
+    // List files with extension filter
+    fn listFilesWithExtension(extension: string) {
+        var fileList = []
+        
+        for var filename in this.files {
+            if this.endsWith(filename, extension) {
+                fileList.push(filename)
+            }
+        }
+        
+        ret fileList
+    }
+    
+    // Create directory
+    fn createDirectory(dirname: string) {
+        em "Creating directory: " + dirname
+        ret true
+    }
+    
+    // Change directory
+    fn changeDirectory(path: string) {
+        this.currentDirectory = path
+        em "Changed directory to: " + path
+        ret true
+    }
+    
+    // Get current directory
+    fn getCurrentDirectory() {
+        ret this.currentDirectory
+    }
+    
+    // ========================================
+    // Import/Export
+    // ========================================
+    
+    // Import file from external source
+    fn importFile(sourcePath: string) {
+        em "Importing file from: " + sourcePath
+        
+        // Read file content
+        ~s @content = ""
+        
+        // Extract filename
+        ~s @filename = this.extractFilename(sourcePath)
+        
+        // Save to storage
+        this.saveFile(@filename, @content)
+        
+        ret @filename
+    }
+    
+    // Export file to external destination
+    fn exportFile(filename: string, destinationPath: string) {
+        em "Exporting file: " + filename + " to " + destinationPath
+        
+        var file = this.files[filename]
+        if file != null {
+            // Write to destination
+            em "File exported"
+            ret true
+        }
+        
+        ret false
+    }
+    
+    // ========================================
+    // Project Operations
+    // ========================================
+    
+    // Create new project
+    fn createProject(projectName: string) {
+        em "Creating project: " + projectName
+        
+        // Create project structure
+        this.createDirectory(projectName)
+        this.createDirectory(projectName + "/src")
+        this.createDirectory(projectName + "/lib")
+        
+        // Create main file
+        ~s @mainContent = "// " + projectName + " main file\n\n"
+        this.saveFile(projectName + "/src/main.droy", @mainContent)
+        
+        em "Project created: " + projectName
+        ret true
+    }
+    
+    // Open project
+    fn openProject(projectPath: string) {
+        em "Opening project: " + projectPath
+        this.currentDirectory = projectPath
+        ret true
+    }
+    
+    // Get project files
+    fn getProjectFiles() {
+        var projectFiles = []
+        
+        for var filename in this.files {
+            projectFiles.push(filename)
+        }
+        
+        ret projectFiles
+    }
+    
+    // ========================================
+    // Helper Methods
+    // ========================================
+    
+    fn getCurrentTimestamp() {
+        ~s @ts = 0
+        ret @ts
+    }
+    
+    fn extractFilename(path: string) {
+        // Extract filename from path
+        ~s @filename = path
+        ret @filename
+    }
+    
+    fn endsWith(str: string, suffix: string) {
+        ret false
+    }
+    
+    // ========================================
+    // Cleanup
+    // ========================================
+    
+    fn cleanup() {
+        em "Cleaning up file manager..."
+        this.files = {}
+        ret true
+    }
+}
+
+// ============================================
+// Export
+// ============================================
+
+ret "File manager library loaded"
