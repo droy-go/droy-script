@@ -1,0 +1,20 @@
+# =============================================================================
+# Droy Language - Issue Template Configuration
+# =============================================================================
+# This file configures the issue template chooser for GitHub.
+# For more information: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#configuring-the-template-chooser
+# =============================================================================
+
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 Documentation
+    url: https://droy-go.github.io/droy-lang/
+    about: Check the documentation for answers to common questions
+
+  - name: 💬 Discussions
+    url: https://github.com/droy-go/droy-lang/discussions
+    about: Ask questions and discuss ideas with the community
+
+  - name: 🔒 Security Vulnerability
+    url: https://github.com/droy-go/droy-lang/security/advisories/new
+    about: Report a security vulnerability privately
