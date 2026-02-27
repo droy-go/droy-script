@@ -1,0 +1,27 @@
+// Droy Language - Links System Example
+// =====================================
+
+// Create a link with id and api
+link id: "homepage" api: "https://example.com"
+create-link: "homepage"
+
+// Create another link
+link id: "api_endpoint" api: "https://api.example.com/v1"
+create-link: "api_endpoint"
+
+// Open a link
+open-link: "homepage"
+link-go: "homepage"
+
+// Using yoex--links (extended links)
+yoex--links id: "external" api: "https://external.com"
+
+// a-link (anchor link)
+a-link id: "section1" api: "#section1"
+
+// Execute commands
+*/employment
+*/Running
+*/pressure
+*/pressure
+*/lock
