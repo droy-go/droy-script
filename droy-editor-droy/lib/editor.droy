@@ -1,0 +1,536 @@
+// Droy Editor Library
+// ====================
+// Code editor functionality for Droy
+
+// ============================================
+// Editor Engine Class
+// ============================================
+
+class EditorEngine {
+    var content: string
+    var cursorPosition: number
+    var selectionStart: number
+    var selectionEnd: number
+    var lineCount: number
+    var currentLine: number
+    var currentColumn: number
+    var undoStack: array
+    var redoStack: array
+    var maxHistorySize: number
+    
+    fn constructor() {
+        this.content = ""
+        this.cursorPosition = 0
+        this.selectionStart = 0
+        this.selectionEnd = 0
+        this.lineCount = 1
+        this.currentLine = 1
+        this.currentColumn = 1
+        this.undoStack = []
+        this.redoStack = []
+        this.maxHistorySize = 100
+    }
+    
+    // Initialize editor
+    fn init() {
+        em "Editor engine initialized"
+        ret true
+    }
+    
+    // ========================================
+    // Content Management
+    // ========================================
+    
+    // Set content
+    fn setContent(content: string) {
+        this.saveState()
+        this.content = content
+        this.updateLineCount()
+        this.cursorPosition = 0
+        ret true
+    }
+    
+    // Get content
+    fn getContent() {
+        ret this.content
+    }
+    
+    // Insert text at cursor
+    fn insertText(text: string) {
+        this.saveState()
+        
+        // Insert text at cursor position
+        ~s @before = this.content.substring(0, this.cursorPosition)
+        ~s @after = this.content.substring(this.cursorPosition)
+        this.content = @before + text + @after
+        
+        // Move cursor
+        this.cursorPosition = this.cursorPosition + text.length
+        this.updateLineCount()
+        this.updateCursorPosition()
+        
+        ret true
+    }
+    
+    // Delete text at cursor
+    fn deleteText(count: number) {
+        this.saveState()
+        
+        if this.cursorPosition < this.content.length {
+            ~s @before = this.content.substring(0, this.cursorPosition)
+            ~s @after = this.content.substring(this.cursorPosition + count)
+            this.content = @before + @after
+            this.updateLineCount()
+        }
+        
+        ret true
+    }
+    
+    // Delete text before cursor (backspace)
+    fn backspace(count: number) {
+        this.saveState()
+        
+        if this.cursorPosition > 0 {
+            ~s @before = this.content.substring(0, this.cursorPosition - count)
+            ~s @after = this.content.substring(this.cursorPosition)
+            this.content = @before + @after
+            this.cursorPosition = this.cursorPosition - count
+            this.updateLineCount()
+            this.updateCursorPosition()
+        }
+        
+        ret true
+    }
+    
+    // Get selected text
+    fn getSelectedText() {
+        if this.selectionStart != this.selectionEnd {
+            ret this.content.substring(this.selectionStart, this.selectionEnd)
+        }
+        ret ""
+    }
+    
+    // Replace selection
+    fn replaceSelection(text: string) {
+        this.saveState()
+        
+        ~s @before = this.content.substring(0, this.selectionStart)
+        ~s @after = this.content.substring(this.selectionEnd)
+        this.content = @before + text + @after
+        
+        this.cursorPosition = this.selectionStart + text.length
+        this.selectionStart = this.cursorPosition
+        this.selectionEnd = this.cursorPosition
+        
+        this.updateLineCount()
+        this.updateCursorPosition()
+        
+        ret true
+    }
+    
+    // Select all
+    fn selectAll() {
+        this.selectionStart = 0
+        this.selectionEnd = this.content.length
+        ret true
+    }
+    
+    // Clear selection
+    fn clearSelection() {
+        this.selectionStart = this.cursorPosition
+        this.selectionEnd = this.cursorPosition
+        ret true
+    }
+    
+    // ========================================
+    // Cursor Movement
+    // ========================================
+    
+    // Move cursor left
+    fn moveLeft(count: number) {
+        if this.cursorPosition >= count {
+            this.cursorPosition = this.cursorPosition - count
+            this.clearSelection()
+            this.updateCursorPosition()
+        }
+        ret true
+    }
+    
+    // Move cursor right
+    fn moveRight(count: number) {
+        if this.cursorPosition + count <= this.content.length {
+            this.cursorPosition = this.cursorPosition + count
+            this.clearSelection()
+            this.updateCursorPosition()
+        }
+        ret true
+    }
+    
+    // Move cursor up
+    fn moveUp() {
+        // Find start of current line
+        ~s @lineStart = this.findLineStart(this.cursorPosition)
+        ~s @col = this.cursorPosition - @lineStart
+        
+        // Find start of previous line
+        if @lineStart > 0 {
+            ~s @prevLineEnd = @lineStart - 1
+            ~s @prevLineStart = this.findLineStart(@prevLineEnd)
+            this.cursorPosition = @prevLineStart + @col
+            if this.cursorPosition > @prevLineEnd {
+                this.cursorPosition = @prevLineEnd
+            }
+            this.clearSelection()
+            this.updateCursorPosition()
+        }
+        
+        ret true
+    }
+    
+    // Move cursor down
+    fn moveDown() {
+        // Find end of current line
+        ~s @lineEnd = this.findLineEnd(this.cursorPosition)
+        ~s @lineStart = this.findLineStart(this.cursorPosition)
+        ~s @col = this.cursorPosition - @lineStart
+        
+        // Find start of next line
+        if @lineEnd < this.content.length {
+            ~s @nextLineStart = @lineEnd + 1
+            ~s @nextLineEnd = this.findLineEnd(@nextLineStart)
+            this.cursorPosition = @nextLineStart + @col
+            if this.cursorPosition > @nextLineEnd {
+                this.cursorPosition = @nextLineEnd
+            }
+            this.clearSelection()
+            this.updateCursorPosition()
+        }
+        
+        ret true
+    }
+    
+    // Move to start of line
+    fn moveToLineStart() {
+        this.cursorPosition = this.findLineStart(this.cursorPosition)
+        this.clearSelection()
+        this.updateCursorPosition()
+        ret true
+    }
+    
+    // Move to end of line
+    fn moveToLineEnd() {
+        this.cursorPosition = this.findLineEnd(this.cursorPosition)
+        this.clearSelection()
+        this.updateCursorPosition()
+        ret true
+    }
+    
+    // Move to start of document
+    fn moveToStart() {
+        this.cursorPosition = 0
+        this.clearSelection()
+        this.updateCursorPosition()
+        ret true
+    }
+    
+    // Move to end of document
+    fn moveToEnd() {
+        this.cursorPosition = this.content.length
+        this.clearSelection()
+        this.updateCursorPosition()
+        ret true
+    }
+    
+    // ========================================
+    // History (Undo/Redo)
+    // ========================================
+    
+    fn saveState() {
+        var state = {
+            content: this.content,
+            cursorPosition: this.cursorPosition
+        }
+        
+        this.undoStack.push(state)
+        
+        // Limit history size
+        if this.undoStack.length > this.maxHistorySize {
+            this.undoStack.shift()
+        }
+        
+        // Clear redo stack on new action
+        this.redoStack = []
+        
+        ret true
+    }
+    
+    fn undo() {
+        if this.undoStack.length > 0 {
+            // Save current state to redo stack
+            var currentState = {
+                content: this.content,
+                cursorPosition: this.cursorPosition
+            }
+            this.redoStack.push(currentState)
+            
+            // Restore previous state
+            var state = this.undoStack.pop()
+            this.content = state.content
+            this.cursorPosition = state.cursorPosition
+            this.updateLineCount()
+            this.updateCursorPosition()
+            
+            em "Undo"
+            ret true
+        }
+        ret false
+    }
+    
+    fn redo() {
+        if this.redoStack.length > 0 {
+            // Save current state to undo stack
+            var currentState = {
+                content: this.content,
+                cursorPosition: this.cursorPosition
+            }
+            this.undoStack.push(currentState)
+            
+            // Restore redo state
+            var state = this.redoStack.pop()
+            this.content = state.content
+            this.cursorPosition = state.cursorPosition
+            this.updateLineCount()
+            this.updateCursorPosition()
+            
+            em "Redo"
+            ret true
+        }
+        ret false
+    }
+    
+    // ========================================
+    // Syntax Highlighting
+    // ========================================
+    
+    fn getHighlightedContent() {
+        // Return content with syntax highlighting markers
+        // This is a simplified version
+        ret this.content
+    }
+    
+    fn getTokenAt(position: number) {
+        ret null
+    }
+    
+    // ========================================
+    // Search and Replace
+    // ========================================
+    
+    fn find(search: string, startPosition: number) {
+        ~s @pos = this.content.indexOf(search, startPosition)
+        ret @pos
+    }
+    
+    fn findAll(search: string) {
+        var positions = []
+        ~s @pos = 0
+        
+        block findLoop {
+            ~s @found = this.content.indexOf(search, @pos)
+            if @found >= 0 {
+                positions.push(@found)
+                ~s @pos = @found + 1
+                findLoop
+            }
+        }
+        findLoop
+        
+        ret positions
+    }
+    
+    fn replace(search: string, replace: string) {
+        this.saveState()
+        
+        // Replace all occurrences
+        ~s @result = this.content
+        ~s @pos = 0
+        
+        block replaceLoop {
+            ~s @found = @result.indexOf(search, @pos)
+            if @found >= 0 {
+                ~s @before = @result.substring(0, @found)
+                ~s @after = @result.substring(@found + search.length)
+                @result = @before + replace + @after
+                ~s @pos = @found + replace.length
+                replaceLoop
+            }
+        }
+        replaceLoop
+        
+        this.content = @result
+        this.updateLineCount()
+        
+        ret true
+    }
+    
+    fn replaceSelectionWith(text: string) {
+        ret this.replaceSelection(text)
+    }
+    
+    // ========================================
+    // Helper Methods
+    // ========================================
+    
+    fn updateLineCount() {
+        this.lineCount = 1
+        var i = 0
+        
+        block countLines {
+            if i < this.content.length {
+                if this.content[i] == "\n" {
+                    this.lineCount = this.lineCount + 1
+                }
+                ~s @i = i + 1
+                countLines
+            }
+        }
+        countLines
+        
+        ret this.lineCount
+    }
+    
+    fn updateCursorPosition() {
+        // Calculate line and column from position
+        this.currentLine = 1
+        this.currentColumn = 1
+        var i = 0
+        
+        block calcPosition {
+            if i < this.cursorPosition {
+                if this.content[i] == "\n" {
+                    this.currentLine = this.currentLine + 1
+                    this.currentColumn = 1
+                } else {
+                    this.currentColumn = this.currentColumn + 1
+                }
+                ~s @i = i + 1
+                calcPosition
+            }
+        }
+        calcPosition
+        
+        ret true
+    }
+    
+    fn findLineStart(position: number) {
+        var i = position
+        
+        block findStart {
+            if i > 0 {
+                if this.content[i - 1] == "\n" {
+                    ret i
+                }
+                ~s @i = i - 1
+                findStart
+            }
+        }
+        findStart
+        
+        ret 0
+    }
+    
+    fn findLineEnd(position: number) {
+        var i = position
+        
+        block findEnd {
+            if i < this.content.length {
+                if this.content[i] == "\n" {
+                    ret i
+                }
+                ~s @i = i + 1
+                findEnd
+            }
+        }
+        findEnd
+        
+        ret this.content.length
+    }
+    
+    fn getLine(lineNumber: number) {
+        var lines = this.getLines()
+        if lineNumber > 0 && lineNumber <= lines.length {
+            ret lines[lineNumber - 1]
+        }
+        ret ""
+    }
+    
+    fn getLines() {
+        var lines = []
+        var currentLine = ""
+        var i = 0
+        
+        block splitLines {
+            if i < this.content.length {
+                if this.content[i] == "\n" {
+                    lines.push(currentLine)
+                    currentLine = ""
+                } else {
+                    currentLine = currentLine + this.content[i]
+                }
+                ~s @i = i + 1
+                splitLines
+            }
+        }
+        splitLines
+        
+        if currentLine.length > 0 {
+            lines.push(currentLine)
+        }
+        
+        ret lines
+    }
+    
+    // ========================================
+    // Getters
+    // ========================================
+    
+    fn getLineCount() {
+        ret this.lineCount
+    }
+    
+    fn getCurrentLine() {
+        ret this.currentLine
+    }
+    
+    fn getCurrentColumn() {
+        ret this.currentColumn
+    }
+    
+    fn getCursorPosition() {
+        ret this.cursorPosition
+    }
+    
+    fn getSelection() {
+        ret {
+            start: this.selectionStart,
+            end: this.selectionEnd
+        }
+    }
+    
+    // ========================================
+    // Cleanup
+    // ========================================
+    
+    fn cleanup() {
+        this.content = ""
+        this.undoStack = []
+        this.redoStack = []
+        ret true
+    }
+}
+
+// ============================================
+// Export
+// ============================================
+
+ret "Editor library loaded"
