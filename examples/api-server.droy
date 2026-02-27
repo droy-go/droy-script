@@ -1,0 +1,102 @@
+// =============================================================================
+// Droy Language - API Server Example
+// =============================================================================
+// This example demonstrates how to create a simple API server using Droy.
+// Note: This is a conceptual example showing Droy syntax for server operations.
+// =============================================================================
+
+// Server configuration
+~s @server_port = 8080
+~s @server_host = "0.0.0.0"
+~s @api_version = "v1"
+
+// Routes configuration
+block: key("routes") {
+    // Health check endpoint
+    route: path("/health") {
+        method: "GET"
+        response: {
+            status: 200
+            body: "{\"status\": \"ok\"}"
+        }
+    }
+    
+    // API root endpoint
+    route: path("/api/" + @api_version) {
+        method: "GET"
+        response: {
+            status: 200
+            body: "{\"version\": \"" + @api_version + "\"}"
+        }
+    }
+    
+    // Users endpoint
+    route: path("/api/" + @api_version + "/users") {
+        method: "GET"
+        handler: "get_users"
+    }
+    
+    // Single user endpoint
+    route: path("/api/" + @api_version + "/users/:id") {
+        method: "GET"
+        handler: "get_user"
+    }
+}
+
+// Database configuration
+block: key("database") {
+    set db_host = "localhost"
+    set db_port = 5432
+    set db_name = "droy_api"
+    set db_user = "droy"
+    
+    // Connection string
+    set conn_string = "postgresql://" + db_user + "@" + db_host + ":" + db_port + "/" + db_name
+}
+
+// Middleware configuration
+block: key("middleware") {
+    // Logging middleware
+    use: "logger" {
+        format: "combined"
+    }
+    
+    // CORS middleware
+    use: "cors" {
+        origin: "*"
+        methods: "GET,POST,PUT,DELETE"
+    }
+    
+    // Rate limiting
+    use: "rateLimit" {
+        windowMs: 900000  // 15 minutes
+        max: 100          // requests per window
+    }
+}
+
+// Error handlers
+block: key("error_handlers") {
+    // 404 handler
+    error: code(404) {
+        response: {
+            status: 404
+            body: "{\"error\": \"Not Found\"}"
+        }
+    }
+    
+    // 500 handler
+    error: code(500) {
+        response: {
+            status: 500
+            body: "{\"error\": \"Internal Server Error\"}"
+        }
+    }
+}
+
+// Start the server
+text "Starting API server on port " + @server_port
+em "API Version: " + @api_version
+em "Server running at http://" + @server_host + ":" + @server_port
+
+*/employment
+*/Running
