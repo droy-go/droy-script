@@ -1,0 +1,185 @@
+# =============================================================================
+# Droy Language - Docker Compose Configuration
+# =============================================================================
+# Usage:
+#   docker-compose up           - Start all services
+#   docker-compose up droy      - Start compiler only
+#   docker-compose up editor    - Start web IDE only
+#   docker-compose build        - Build all images
+#   docker-compose down         - Stop all services
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # ===========================================================================
+  # Droy Compiler Service
+  # ===========================================================================
+  droy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: droy-lang:latest
+    container_name: droy-compiler
+    volumes:
+      - ./examples:/workspace/examples:ro
+      - ./lib:/usr/local/lib/droy:ro
+      - droy-workspace:/workspace
+    working_dir: /workspace
+    command: droy -h
+    stdin_open: true
+    tty: true
+    networks:
+      - droy-network
+
+  # ===========================================================================
+  # Droy Development Environment
+  # ===========================================================================
+  droy-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    image: droy-lang:dev
+    container_name: droy-dev
+    volumes:
+      - .:/droy-lang
+      - droy-build:/droy-lang/obj
+      - droy-bin:/droy-lang/bin
+    working_dir: /droy-lang
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    networks:
+      - droy-network
+    profiles:
+      - dev
+
+  # ===========================================================================
+  # Web IDE Service
+  # ===========================================================================
+  editor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: editor
+    image: droy-lang:editor
+    container_name: droy-editor
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - droy-network
+    depends_on:
+      - droy
+
+  # ===========================================================================
+  # Test Runner Service
+  # ===========================================================================
+  droy-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    image: droy-lang:test
+    container_name: droy-test
+    volumes:
+      - .:/build
+      - test-results:/build/test-results
+    working_dir: /build
+    command: make test
+    networks:
+      - droy-network
+    profiles:
+      - test
+
+  # ===========================================================================
+  # Documentation Server
+  # ===========================================================================
+  docs:
+    image: nginx:alpine
+    container_name: droy-docs
+    volumes:
+      - ./docs:/usr/share/nginx/html:ro
+      - ./README.md:/usr/share/nginx/html/README.md:ro
+    ports:
+      - "8080:80"
+    networks:
+      - droy-network
+    profiles:
+      - docs
+
+  # ===========================================================================
+  # Package Registry (Simulated)
+  # ===========================================================================
+  registry:
+    image: nginx:alpine
+    container_name: droy-registry
+    volumes:
+      - registry-data:/usr/share/nginx/html/packages
+      - ./scripts/registry-nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "4873:80"
+    networks:
+      - droy-network
+    profiles:
+      - registry
+
+  # ===========================================================================
+  # Database for Examples
+  # ===========================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: droy-postgres
+    environment:
+      POSTGRES_USER: droy
+      POSTGRES_PASSWORD: droy
+      POSTGRES_DB: droy_examples
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - droy-network
+    profiles:
+      - database
+
+  # ===========================================================================
+  # Redis for Caching
+  # ===========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: droy-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - droy-network
+    profiles:
+      - cache
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  droy-network:
+    driver: bridge
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  droy-workspace:
+    driver: local
+  droy-build:
+    driver: local
+  droy-bin:
+    driver: local
+  test-results:
+    driver: local
+  registry-data:
+    driver: local
+  postgres-data:
+    driver: local
