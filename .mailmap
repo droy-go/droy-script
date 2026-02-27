@@ -1,0 +1,19 @@
+# =============================================================================
+# Droy Language - Git Mailmap File
+# =============================================================================
+# This file is used to map author/committer names and/or E-Mail addresses
+# to canonical real names and email addresses.
+# For more information: https://git-scm.com/docs/git-check-mailmap
+# =============================================================================
+
+# Format:
+# Proper Name <proper@email.xx> Commit Name <commit@email.xx>
+# Proper Name <proper@email.xx> <commit@email.xx>
+# Proper Name <proper@email.xx> Commit Name
+
+# Example:
+# John Doe <john.doe@example.com> jdoe <jdoe@example.com>
+# John Doe <john.doe@example.com> <jdoe@example.com>
+
+# Project Lead
+Droy Go <droy.go@example.com> droy-go <droy-go@users.noreply.github.com>
