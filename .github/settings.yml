@@ -1,0 +1,191 @@
+# =============================================================================
+# Droy Language - GitHub Repository Settings
+# =============================================================================
+# This file configures repository settings using the Probot Settings app.
+# For more information: https://probot.github.io/apps/settings/
+# =============================================================================
+
+repository:
+  # Repository name
+  name: droy-lang
+  
+  # Repository description
+  description: A simple, expressive programming language with LLVM backend
+  
+  # A URL with more information about the repository
+  homepage: https://droy-go.github.io/droy-lang/
+  
+  # A comma-separated list of topics to set on the repository
+  topics: programming-language, compiler, llvm, interpreter, droy, language
+  
+  # Either `true` to make the repository private, or `false` to make it public
+  private: false
+  
+  # Either `true` to enable issues for this repository, `false` to disable them
+  has_issues: true
+  
+  # Either `true` to enable projects for this repository, or `false` to disable them
+  has_projects: true
+  
+  # Either `true` to enable the wiki for this repository, `false` to disable it
+  has_wiki: true
+  
+  # Either `true` to enable downloads for this repository, `false` to disable them
+  has_downloads: true
+  
+  # Updates the default branch for this repository
+  default_branch: main
+  
+  # Either `true` to allow squash-merging pull requests, or `false` to prevent
+  allow_squash_merge: true
+  
+  # Either `true` to allow merging pull requests with a merge commit, or `false` to prevent
+  allow_merge_commit: true
+  
+  # Either `true` to allow rebase-merging pull requests, or `false` to prevent
+  allow_rebase_merge: true
+  
+  # Either `true` to enable automatic deletion of branches on merge, or `false` to disable
+  delete_branch_on_merge: true
+  
+  # Either `true` to enable automated security fixes, or `false` to disable
+  enable_automated_security_fixes: true
+  
+  # Either `true` to enable vulnerability alerts, or `false` to disable
+  enable_vulnerability_alerts: true
+
+# =============================================================================
+# Labels
+# =============================================================================
+labels:
+  - name: bug
+    color: d73a4a
+    description: Something isn't working
+  
+  - name: enhancement
+    color: a2eeef
+    description: New feature or request
+  
+  - name: documentation
+    color: 0075ca
+    description: Improvements or additions to documentation
+  
+  - name: good first issue
+    color: 7057ff
+    description: Good for newcomers
+  
+  - name: help wanted
+    color: 008672
+    description: Extra attention is needed
+  
+  - name: question
+    color: d876e3
+    description: Further information is requested
+
+# =============================================================================
+# Milestones
+# =============================================================================
+milestones:
+  - title: v1.0.0
+    description: Initial stable release
+    state: closed
+  
+  - title: v1.1.0
+    description: Module system and extended standard library
+    state: open
+  
+  - title: v1.2.0
+    description: Arrays, structs, and file I/O
+    state: open
+  
+  - title: v2.0.0
+    description: Static types, generics, and async/await
+    state: open
+
+# =============================================================================
+# Collaborators
+# =============================================================================
+# Give specific users access to this repository
+# collaborators:
+#   - username: droy-go
+#     permission: admin
+
+# =============================================================================
+# Teams
+# =============================================================================
+# Give specific teams access to this repository
+# teams:
+#   - name: core
+#     permission: admin
+#   - name: docs
+#     permission: push
+
+# =============================================================================
+# Branches
+# =============================================================================
+branches:
+  - name: main
+    protection:
+      # Require pull request reviews before merging
+      required_pull_request_reviews:
+        # The number of approvals required
+        required_approving_review_count: 1
+        
+        # Dismiss approving reviews when someone pushes a new commit
+        dismiss_stale_reviews: true
+        
+        # Require review from Code Owners
+        require_code_owner_reviews: true
+        
+        # Specify which users and teams can dismiss pull request reviews
+        dismissal_restrictions:
+          users: []
+          teams: []
+      
+      # Require status checks to pass before merging
+      required_status_checks:
+        # Require branches to be up to date before merging
+        strict: true
+        
+        # The list of status checks to require
+        contexts:
+          - CI
+          - CodeQL
+      
+      # Enforce all configured restrictions for administrators
+      enforce_admins: false
+      
+      # Restrict who can push to this branch
+      restrictions:
+        apps: []
+        users: []
+        teams: []
+      
+      # Prevent merge commits from being pushed to matching branches
+      required_linear_history: false
+      
+      # Permits force pushes to the protected branch by anyone with write access
+      allow_force_pushes: false
+      
+      # Permits deletion of the protected branch by anyone with write access
+      allow_deletions: false
+      
+      # Requires all conversations on code to be resolved before a pull request can be merged
+      required_conversation_resolution: true
+  
+  - name: develop
+    protection:
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: true
+        require_code_owner_reviews: false
+      
+      required_status_checks:
+        strict: true
+        contexts:
+          - CI
+      
+      enforce_admins: false
+      restrictions: null
+      allow_force_pushes: false
+      allow_deletions: false
