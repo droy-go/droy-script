@@ -1,0 +1,89 @@
+// Droy File Processor Example
+// Demonstrates file I/O operations (requires io module)
+
+// Import io module (planned)
+// import "io"
+
+// Configuration
+set inputDir = "./input"
+set outputDir = "./output"
+set logFile = "./process.log"
+
+// Process file
+f processFile(inputPath, outputPath) {
+    em "Processing: " + inputPath
+    
+    // Read file (conceptual)
+    // set content = io.readFile(inputPath)
+    
+    // Process content
+    // set processed = transform(content)
+    
+    // Write output (conceptual)
+    // io.writeFile(outputPath, processed)
+    
+    em "  -> Output: " + outputPath
+    ret true
+}
+
+// Transform content
+f transform(content) {
+    // Example transformations
+    // - Convert to uppercase
+    // - Remove extra whitespace
+    // - Add line numbers
+    ret content
+}
+
+// Batch process
+f batchProcess(inputDir, outputDir) {
+    em "=== Batch Processing ==="
+    em "Input: " + inputDir
+    em "Output: " + outputDir
+    em ""
+    
+    // List files (conceptual)
+    // set files = io.readDir(inputDir)
+    
+    // Process each file
+    // for (set file in files) {
+    //     set inputPath = inputDir + "/" + file
+    //     set outputPath = outputDir + "/" + file + ".processed"
+    //     processFile(inputPath, outputPath)
+    // }
+    
+    em ""
+em "Processed 0 files (io module required)"
+}
+
+// Log message
+f log(message) {
+    set timestamp = "2026-02-22 10:00:00"  // Would use time.now()
+    set logEntry = "[" + timestamp + "] " + message
+    em logEntry
+    // io.appendFile(logFile, logEntry + "\n")
+}
+
+// Main
+em "=== Droy File Processor ==="
+em ""
+
+// Log start
+log("Starting file processor")
+
+// Process files
+batchProcess(inputDir, outputDir)
+
+// Log end
+log("File processor completed")
+
+em ""
+em "Note: Full file I/O support requires io module (planned for v1.1.0)"
+
+// Styling for output
+sty {
+    set color = "green"
+    set font = "monospace"
+}
+
+*/Running
