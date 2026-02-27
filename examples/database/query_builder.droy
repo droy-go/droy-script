@@ -1,0 +1,112 @@
+// Droy Database - Query Builder Example
+// ======================================
+
+set db = database "store" type: memory
+
+// Products table
+set products = db.table "products" schema: {
+    id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+    name: TEXT NOT_NULL
+    category: TEXT
+    price: REAL NOT_NULL
+    stock: INTEGER DEFAULT: 0
+    rating: REAL DEFAULT: 0
+}
+
+// Insert sample products
+products.insert { name: "iPhone" category: "Electronics" price: 999 stock: 50 rating: 4.5 }
+products.insert { name: "MacBook" category: "Electronics" price: 1999 stock: 30 rating: 4.8 }
+products.insert { name: "AirPods" category: "Electronics" price: 199 stock: 100 rating: 4.3 }
+products.insert { name: "T-Shirt" category: "Clothing" price: 29 stock: 200 rating: 4.0 }
+products.insert { name: "Jeans" category: "Clothing" price: 79 stock: 150 rating: 4.2 }
+products.insert { name: "Sneakers" category: "Footwear" price: 129 stock: 80 rating: 4.4 }
+products.insert { name: "Coffee Maker" category: "Home" price: 149 stock: 40 rating: 4.6 }
+products.insert { name: "Blender" category: "Home" price: 89 stock: 60 rating: 4.1 }
+
+// Query 1: All products sorted by price (descending)
+set expensiveFirst = products
+    .order("price" ascending: false)
+    .query()
+
+em "Top 3 most expensive products:"
+for (i in 0..2) {
+    var p = expensiveFirst.at(i)
+    em "  " + (i+1) + ". " + p.name + " - $" + p.price
+}
+
+// Query 2: Products in Electronics category
+set electronics = products
+    .where { category: "Electronics" }
+    .order("rating" ascending: false)
+    .query()
+
+em "\nElectronics (sorted by rating):"
+for (p in electronics) {
+    em "  " + p.name + " - Rating: " + p.rating
+}
+
+// Query 3: Products with price between $50 and $200
+set midRange = products
+    .where { price: { $gte: 50 $lte: 200 } }
+    .order("price")
+    .query()
+
+em "\nMid-range products ($50-$200):"
+for (p in midRange) {
+    em "  " + p.name + " - $" + p.price
+}
+
+// Query 4: Top 5 rated products
+set topRated = products
+    .order("rating" ascending: false)
+    .take(5)
+    .query()
+
+em "\nTop 5 rated products:"
+for (p in topRated) {
+    em "  " + p.name + " - Rating: " + p.rating
+}
+
+// Query 5: Products with low stock (less than 50)
+set lowStock = products
+    .where { stock: { $lt: 50 } }
+    .query()
+
+em "\nLow stock alert (less than 50):"
+for (p in lowStock) {
+    em "  " + p.name + " - Stock: " + p.stock
+}
+
+// Query 6: Paginated results
+set page1 = products
+    .order("id")
+    .take(3)
+    .skip(0)
+    .query()
+
+set page2 = products
+    .order("id")
+    .take(3)
+    .skip(3)
+    .query()
+
+em "\nPagination:"
+em "  Page 1:"
+for (p in page1) {
+    em "    " + p.name
+}
+em "  Page 2:"
+for (p in page2) {
+    em "    " + p.name
+}
+
+// Query 7: Aggregate-like query (count by category)
+em "\nProducts by category:"
+var categories = ["Electronics", "Clothing", "Footwear", "Home"]
+for (cat in categories) {
+    set count = products.where { category: cat }.query().count()
+    em "  " + cat + ": " + count + " products"
+}
+
+// Return
+ret 0
