@@ -1,0 +1,88 @@
+// Droy Database - Migrations Example
+// ===================================
+
+set db = database "app" type: json path: "app.db.json"
+
+// Migration version 1: Create users table
+db.migrate version: 1 {
+    up: {
+        set users = db.table "users" schema: {
+            id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+            username: TEXT UNIQUE NOT_NULL
+            password: TEXT NOT_NULL
+        }
+    }
+    down: {
+        db.dropTable "users"
+    }
+}
+
+// Migration version 2: Add email column
+db.migrate version: 2 {
+    up: {
+        db.alterTable "users" add: {
+            email: TEXT
+        }
+    }
+    down: {
+        // SQLite doesn't support dropping columns easily
+        // Would need to recreate table
+    }
+}
+
+// Migration version 3: Create profiles table
+db.migrate version: 3 {
+    up: {
+        set profiles = db.table "profiles" schema: {
+            id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+            user_id: INTEGER NOT_NULL FOREIGN_KEY: "users.id"
+            bio: TEXT
+            avatar: TEXT
+        }
+    }
+    down: {
+        db.dropTable "profiles"
+    }
+}
+
+// Migration version 4: Add timestamps
+db.migrate version: 4 {
+    up: {
+        db.alterTable "users" add: {
+            created_at: DATETIME
+            updated_at: DATETIME
+        }
+        db.alterTable "profiles" add: {
+            created_at: DATETIME
+            updated_at: DATETIME
+        }
+    }
+    down: {
+        // Would need to recreate tables
+    }
+}
+
+// Check current schema
+em "Database schema version: 4"
+em "Tables: " + db.getTables().join(", ")
+
+// Insert test data
+set users = db.table "users"
+set user1 = users.insert {
+    username: "alice"
+    password: "secret123"
+    email: "alice@example.com"
+    created_at: "2026-02-22"
+}
+
+set profiles = db.table "profiles"
+set profile1 = profiles.insert {
+    user_id: user1.id
+    bio: "Hello, I'm Alice!"
+    created_at: "2026-02-22"
+}
+
+em "Migrations applied successfully!"
+
+// Return
+ret 0
