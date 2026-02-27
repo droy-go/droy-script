@@ -1,0 +1,214 @@
+// =============================================================================
+// Droy Language - Simple Game Example
+// =============================================================================
+// This example demonstrates game development concepts using Droy syntax.
+// Note: This is a conceptual example showing Droy syntax for game operations.
+// =============================================================================
+
+// Game configuration
+~s @game_title = "Droy Adventure"
+~s @screen_width = 800
+~s @screen_height = 600
+~s @fps = 60
+
+// Player configuration
+block: key("player") {
+    set player_x = 400
+    set player_y = 300
+    set player_speed = 5
+    set player_health = 100
+    set player_score = 0
+    
+    // Player sprite
+    sprite: type("player") {
+        width: 32
+        height: 32
+        color: "blue"
+    }
+}
+
+// Game objects
+block: key("objects") {
+    // Coins to collect
+    object: type("coin") {
+        count: 10
+        value: 10
+        sprite: {
+            width: 16
+            height: 16
+            color: "gold"
+        }
+    }
+    
+    // Enemies
+    object: type("enemy") {
+        count: 5
+        damage: 20
+        speed: 2
+        sprite: {
+            width: 32
+            height: 32
+            color: "red"
+        }
+    }
+    
+    // Obstacles
+    object: type("obstacle") {
+        count: 15
+        sprite: {
+            width: 40
+            height: 40
+            color: "gray"
+        }
+    }
+}
+
+// Game state
+~s @game_state = "playing"  // playing, paused, game_over
+~s @level = 1
+~s @lives = 3
+
+// Input handling
+block: key("input") {
+    // Keyboard controls
+    key: code("W") { action: "move_up" }
+    key: code("S") { action: "move_down" }
+    key: code("A") { action: "move_left" }
+    key: code("D") { action: "move_right" }
+    key: code("SPACE") { action: "jump" }
+    key: code("ESC") { action: "pause" }
+}
+
+// Game loop
+block: key("game_loop") {
+    // Update game state
+    update: {
+        // Move player
+        if input.key("W") {
+            ~s @player_y = @player_y - @player_speed
+        }
+        if input.key("S") {
+            ~s @player_y = @player_y + @player_speed
+        }
+        if input.key("A") {
+            ~s @player_x = @player_x - @player_speed
+        }
+        if input.key("D") {
+            ~s @player_x = @player_x + @player_speed
+        }
+        
+        // Check boundaries
+        if @player_x < 0 { ~s @player_x = 0 }
+        if @player_x > @screen_width { ~s @player_x = @screen_width }
+        if @player_y < 0 { ~s @player_y = 0 }
+        if @player_y > @screen_height { ~s @player_y = @screen_height }
+        
+        // Check collisions
+        check_collisions()
+        
+        // Update score
+        if @player_score >= 100 * @level {
+            ~s @level = @level + 1
+            em "Level Up! Now at level " + @level
+        }
+    }
+    
+    // Render frame
+    render: {
+        clear: color("black")
+        draw: sprite("player") at(@player_x, @player_y)
+        draw: objects("coins")
+        draw: objects("enemies")
+        draw: objects("obstacles")
+        draw: ui("hud")
+    }
+}
+
+// Collision detection
+block: key("collision_detection") {
+    function: name("check_collisions") {
+        // Check coin collection
+        for coin in objects.coins {
+            if distance(@player_x, @player_y, coin.x, coin.y) < 20 {
+                ~s @player_score = @player_score + coin.value
+                em "Coin collected! Score: " + @player_score
+                remove: coin
+            }
+        }
+        
+        // Check enemy collision
+        for enemy in objects.enemies {
+            if distance(@player_x, @player_y, enemy.x, enemy.y) < 25 {
+                ~s @player_health = @player_health - enemy.damage
+                em "Hit by enemy! Health: " + @player_health
+                if @player_health <= 0 {
+                    ~s @lives = @lives - 1
+                    if @lives <= 0 {
+                        ~s @game_state = "game_over"
+                        em "Game Over! Final Score: " + @player_score
+                    } else {
+                        ~s @player_health = 100
+                        em "Life lost! Lives remaining: " + @lives
+                    }
+                }
+            }
+        }
+    }
+}
+
+// UI rendering
+block: key("ui") {
+    hud: {
+        // Health bar
+        bar: type("health") {
+            x: 10
+            y: 10
+            width: 200
+            height: 20
+            value: @player_health
+            max: 100
+            color: "green"
+        }
+        
+        // Score display
+        text: "Score: " + @player_score {
+            x: 10
+            y: 40
+            color: "white"
+            size: 20
+        }
+        
+        // Level display
+        text: "Level: " + @level {
+            x: 10
+            y: 65
+            color: "white"
+            size: 20
+        }
+        
+        // Lives display
+        text: "Lives: " + @lives {
+            x: 10
+            y: 90
+            color: "white"
+            size: 20
+        }
+    }
+}
+
+// Initialize game
+text "Welcome to " + @game_title + "!"
+em "Controls:"
+em "  W/A/S/D - Move"
+em "  SPACE - Jump"
+em "  ESC - Pause"
+em ""
+em "Collect coins, avoid enemies!"
+em ""
+
+// Start game
+~s @game_state = "playing"
+em "Game started! Good luck!"
+
+*/employment
+*/Running
