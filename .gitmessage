@@ -1,0 +1,54 @@
+# =============================================================================
+# Droy Language - Git Commit Message Template
+# =============================================================================
+# This file provides a template for commit messages.
+# To use: git config commit.template .gitmessage
+# =============================================================================
+
+# <type>(<scope>): <subject>
+#
+# |<----  Using a Maximum Of 50 Characters  ---->|
+#
+# Explain why this change is being made
+# |<----   Try To Limit Each Line to a Maximum Of 72 Characters   ---->|
+#
+# Provide links or keys to any relevant tickets, articles or other resources
+# Example: Fixes #123, Relates to #456
+#
+# --- COMMIT END ---
+#
+# Type can be:
+#    feat     (new feature)
+#    fix      (bug fix)
+#    docs     (documentation changes)
+#    style    (formatting, missing semi colons, etc; no code change)
+#    refactor (refactoring production code)
+#    perf     (performance improvements)
+#    test     (adding missing tests, refactoring tests; no production code change)
+#    chore    (updating grunt tasks etc; no production code change)
+#    build    (changes to build system or dependencies)
+#    ci       (changes to CI configuration)
+#    revert   (reverting a previous commit)
+#
+# Scope can be:
+#    lexer    (lexer/tokenizer)
+#    parser   (parser)
+#    ast      (abstract syntax tree)
+#    interp   (interpreter)
+#    llvm     (LLVM backend)
+#    stdlib   (standard library)
+#    build    (build system)
+#    ci       (CI/CD)
+#    docs     (documentation)
+#    tests    (test suite)
+#    deps     (dependencies)
+#
+# Remember to:
+#    Capitalize the subject line
+#    Use the imperative mood ("Add feature" not "Added feature")
+#    Do not end the subject line with a period
+#    Separate subject from body with a blank line
+#    Use the body to explain what and why vs. how
+#    Can use multiple lines with "-" for bullet points in body
+#
+# =============================================================================
