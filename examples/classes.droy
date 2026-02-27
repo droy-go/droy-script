@@ -1,0 +1,52 @@
+// Droy Helper Language - Classes and Objects Example
+// ==================================================
+
+// Define a class
+class Person {
+    var name: string
+    var age: number
+    
+    fn constructor(n: string, a: number) {
+        this.name = n
+        this.age = a
+    }
+    
+    fn greet() {
+        em "Hello, my name is " + this.name
+    }
+    
+    fn getAge() {
+        ret this.age
+    }
+}
+
+// Define a subclass
+class Employee extends Person {
+    var salary: number
+    var department: string
+    
+    fn constructor(n: string, a: number, s: number, d: string) {
+        super.constructor(n, a)
+        this.salary = s
+        this.department = d
+    }
+    
+    fn getDetails() {
+        em "Name: " + this.name
+        em "Age: " + this.age
+        em "Salary: " + this.salary
+        em "Department: " + this.department
+    }
+}
+
+// Create objects
+var person = new Person("Alice", 30)
+var employee = new Employee("Bob", 25, 50000, "Engineering")
+
+// Use objects
+person.greet()
+employee.greet()
+employee.getDetails()
+
+// Return
+ret 0
