@@ -1,0 +1,183 @@
+{ 
+    // =============================================================================
+    // Droy Language - C/C++ IntelliSense Configuration
+    // =============================================================================
+    // This file configures IntelliSense for C/C++ files in VS Code.
+    // =============================================================================
+    
+    "configurations": [
+        {
+            "name": "Linux - GCC",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/llvm_backend",
+                "${workspaceFolder}/build/generated",
+                "/usr/include",
+                "/usr/local/include",
+                "/usr/lib/llvm-*/include",
+                "/usr/lib/llvm-15/include",
+                "/usr/lib/llvm-16/include",
+                "/usr/lib/llvm-17/include"
+            ],
+            "defines": [
+                "DEBUG",
+                "_DEBUG",
+                "_GNU_SOURCE",
+                "__STDC_CONSTANT_MACROS",
+                "__STDC_FORMAT_MACROS",
+                "__STDC_LIMIT_MACROS"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "/usr/include",
+                    "/usr/local/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+            }
+        },
+        {
+            "name": "Linux - Clang",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/llvm_backend",
+                "${workspaceFolder}/build/generated",
+                "/usr/include",
+                "/usr/local/include",
+                "/usr/lib/llvm-*/include",
+                "/usr/lib/llvm-15/include",
+                "/usr/lib/llvm-16/include",
+                "/usr/lib/llvm-17/include"
+            ],
+            "defines": [
+                "DEBUG",
+                "_DEBUG",
+                "_GNU_SOURCE",
+                "__STDC_CONSTANT_MACROS",
+                "__STDC_FORMAT_MACROS",
+                "__STDC_LIMIT_MACROS"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "/usr/include",
+                    "/usr/local/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+            }
+        },
+        {
+            "name": "macOS - Clang",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/llvm_backend",
+                "${workspaceFolder}/build/generated",
+                "/usr/include",
+                "/usr/local/include",
+                "/opt/homebrew/opt/llvm/include",
+                "/usr/local/opt/llvm/include"
+            ],
+            "defines": [
+                "DEBUG",
+                "_DEBUG",
+                "__STDC_CONSTANT_MACROS",
+                "__STDC_FORMAT_MACROS",
+                "__STDC_LIMIT_MACROS"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks",
+                "/System/Library/Frameworks"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "/usr/include",
+                    "/usr/local/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+            }
+        },
+        {
+            "name": "Windows - MSVC",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/llvm_backend",
+                "${workspaceFolder}/build/generated",
+                "${env:ProgramFiles}/LLVM/include",
+                "C:/Program Files/LLVM/include"
+            ],
+            "defines": [
+                "DEBUG",
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_CRT_SECURE_NO_WARNINGS",
+                "__STDC_CONSTANT_MACROS",
+                "__STDC_FORMAT_MACROS",
+                "__STDC_LIMIT_MACROS"
+            ],
+            "compilerPath": "cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "${env:ProgramFiles}/LLVM/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+            }
+        },
+        {
+            "name": "Windows - MinGW",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/llvm_backend",
+                "${workspaceFolder}/build/generated",
+                "C:/msys64/mingw64/include",
+                "C:/mingw64/include"
+            ],
+            "defines": [
+                "DEBUG",
+                "_DEBUG",
+                "__STDC_CONSTANT_MACROS",
+                "__STDC_FORMAT_MACROS",
+                "__STDC_LIMIT_MACROS"
+            ],
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C:/msys64/mingw64/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db"
+            }
+        }
+    ],
+    "version": 4
+}
