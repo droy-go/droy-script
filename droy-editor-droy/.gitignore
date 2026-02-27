@@ -1,0 +1,60 @@
+# Droy Editor - Git Ignore
+# ========================
+
+# Build outputs
+*.exe
+*.out
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+droy-editor
+build/
+dist/
+bin/
+
+# Droy compiled files
+*.droy.o
+*.droy.ll
+*.droy.bc
+*.droy.s
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Dependencies
+node_modules/
+vendor/
+
+# Test outputs
+test-results/
+coverage/
+*.gcov
+
+# Documentation builds
+docs/_build/
+docs/_site/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache
+.cache/
+*.cache
