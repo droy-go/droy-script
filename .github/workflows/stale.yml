@@ -1,0 +1,104 @@
+# =============================================================================
+# Droy Language - Stale Issue Management
+# =============================================================================
+# This workflow automatically marks issues and PRs as stale after a period of
+# inactivity, and closes them after a further period.
+# =============================================================================
+
+name: Mark Stale Issues and PRs
+
+on:
+  schedule:
+    # Run every day at 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    name: Mark stale issues and PRs
+    
+    steps:
+    - name: Mark stale issues and PRs
+      uses: actions/stale@v9
+      with:
+        # Token for the repository
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        
+        # Message to post on stale issues
+        stale-issue-message: |
+          This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs within 7 days.
+          
+          If this issue is still relevant, please comment to keep it open. Thank you for your contributions!
+        
+        # Message to post on stale PRs
+        stale-pr-message: |
+          This pull request has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs within 7 days.
+          
+          If you're still working on this PR, please comment to keep it open. Thank you for your contributions!
+        
+        # Message to post when closing stale issues
+        close-issue-message: |
+          This issue has been automatically closed due to inactivity. If you believe this issue is still relevant, please feel free to reopen it or create a new issue.
+          
+          Thank you for your understanding!
+        
+        # Message to post when closing stale PRs
+        close-pr-message: |
+          This pull request has been automatically closed due to inactivity. If you'd like to continue working on this, please feel free to reopen it or create a new PR.
+          
+          Thank you for your understanding!
+        
+        # Number of days of inactivity before marking as stale
+        days-before-issue-stale: 60
+        days-before-pr-stale: 30
+        
+        # Number of days of inactivity before closing
+        days-before-issue-close: 7
+        days-before-pr-close: 7
+        
+        # Label to apply when marking as stale
+        stale-issue-label: 'stale'
+        stale-pr-label: 'stale'
+        
+        # Label to apply when closing
+        close-issue-label: 'closed-due-to-inactivity'
+        close-pr-label: 'closed-due-to-inactivity'
+        
+        # Issues/PRs with these labels will never be marked stale
+        exempt-issue-labels: 'pinned,security,good first issue,help wanted'
+        exempt-pr-labels: 'pinned,security,work-in-progress'
+        
+        # Issues/PRs with these milestones will never be marked stale
+        exempt-milestones: 'v1.1.0,v1.2.0,v2.0.0'
+        
+        # Only issues/PRs with these labels will be checked
+        # labels-to-check: ''
+        
+        # Remove stale label when updated
+        remove-stale-when-updated: true
+        
+        # Remove close label when reopened
+        remove-close-when-updated: true
+        
+        # Enable debug logging
+        debug-only: false
+        
+        # Ascending order (oldest first)
+        ascending: true
+        
+        # Operations per run (to avoid rate limiting)
+        operations-per-run: 100
+        
+        # Start date for stale checks
+        # start-date: '2024-01-01T00:00:00Z'
+        
+        # Delete branch when closing stale PRs
+        delete-branch: false
+        
+        # Enable statistics
+        enable-statistics: true
