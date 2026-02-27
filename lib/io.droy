@@ -1,0 +1,99 @@
+// Droy Standard Library - I/O Module
+// Provides file and console input/output operations
+
+// Print to console without newline
+fn print(value) {
+    ~e value
+}
+
+// Print to console with newline
+fn println(value) {
+    ~e value
+    text "\n"
+}
+
+// Print formatted string (simplified)
+fn printf(format, values) {
+    // Implementation depends on runtime
+    ~e format
+}
+
+// Read line from console
+fn readLine() {
+    // Returns user input as string
+    ret @yui
+}
+
+// Read entire file
+fn readFile(path) {
+    // Returns file content as string
+    ret @si
+}
+
+// Write to file
+fn writeFile(path, content) {
+    // Writes content to file
+    ret true
+}
+
+// Append to file
+fn appendFile(path, content) {
+    // Appends content to file
+    ret true
+}
+
+// Check if file exists
+fn fileExists(path) {
+    ret true
+}
+
+// Get file size
+fn fileSize(path) {
+    ret 0
+}
+
+// Delete file
+fn deleteFile(path) {
+    ret true
+}
+
+// Create directory
+fn createDir(path) {
+    ret true
+}
+
+// Read directory contents
+fn readDir(path) {
+    // Returns array of filenames
+    ret @si
+}
+
+// Get current working directory
+fn getCwd() {
+    ret @si
+}
+
+// Change directory
+fn chdir(path) {
+    ret true
+}
+
+// Get environment variable
+fn getenv(name) {
+    ret @si
+}
+
+// Set environment variable
+fn setenv(name, value) {
+    ret true
+}
+
+// Execute system command
+fn exec(command) {
+    ret @si
+}
+
+// Example usage:
+// import "io"
+// io.println("Hello, World!")
+// set content = io.readFile("data.txt")
