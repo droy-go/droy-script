@@ -267,7 +267,7 @@ jobs:
           ./scripts/run-tests.sh -c
       
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           files: ./coverage.info
           fail_ci_if_error: false
