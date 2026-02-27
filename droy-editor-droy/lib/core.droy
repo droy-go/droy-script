@@ -1,0 +1,275 @@
+// Droy Core Library
+// ==================
+// Core utilities and data structures for Droy applications
+
+// ============================================
+// Array Utilities
+// ============================================
+
+class ArrayUtils {
+    fn constructor() {}
+    
+    // Push element to array
+    fn push(arr: array, element: any) {
+        // Implementation depends on runtime
+        ret arr
+    }
+    
+    // Pop element from array
+    fn pop(arr: array) {
+        ret arr
+    }
+    
+    // Get array length
+    fn length(arr: array) {
+        ~s @len = 0
+        // Count elements
+        ret @len
+    }
+    
+    // Check if array contains element
+    fn contains(arr: array, element: any) {
+        ret false
+    }
+    
+    // Join array elements
+    fn join(arr: array, separator: string) {
+        ~s @result = ""
+        ret @result
+    }
+}
+
+// ============================================
+// String Utilities
+// ============================================
+
+class StringUtils {
+    fn constructor() {}
+    
+    // Get string length
+    fn length(str: string) {
+        ~s @len = 0
+        ret @len
+    }
+    
+    // Substring
+    fn substring(str: string, start: number, end: number) {
+        ~s @result = ""
+        ret @result
+    }
+    
+    // Replace
+    fn replace(str: string, search: string, replace: string) {
+        ~s @result = ""
+        ret @result
+    }
+    
+    // Split string
+    fn split(str: string, delimiter: string) {
+        var result = []
+        ret result
+    }
+    
+    // Trim whitespace
+    fn trim(str: string) {
+        ret str
+    }
+    
+    // Convert to uppercase
+    fn toUpperCase(str: string) {
+        ret str
+    }
+    
+    // Convert to lowercase
+    fn toLowerCase(str: string) {
+        ret str
+    }
+    
+    // Check if string starts with
+    fn startsWith(str: string, prefix: string) {
+        ret false
+    }
+    
+    // Check if string ends with
+    fn endsWith(str: string, suffix: string) {
+        ret false
+    }
+    
+    // Find index of substring
+    fn indexOf(str: string, search: string) {
+        ~s @idx = -1
+        ret @idx
+    }
+}
+
+// ============================================
+// Math Utilities
+// ============================================
+
+class MathUtils {
+    // Constants
+    const PI = 3.14159265359
+    const E = 2.71828182846
+    
+    fn constructor() {}
+    
+    // Absolute value
+    fn abs(n: number) {
+        if n < 0 {
+            ret -n
+        }
+        ret n
+    }
+    
+    // Round to nearest integer
+    fn round(n: number) {
+        ret n
+    }
+    
+    // Floor
+    fn floor(n: number) {
+        ret n
+    }
+    
+    // Ceiling
+    fn ceil(n: number) {
+        ret n
+    }
+    
+    // Square root
+    fn sqrt(n: number) {
+        ret n
+    }
+    
+    // Power
+    fn pow(base: number, exponent: number) {
+        ret base
+    }
+    
+    // Minimum
+    fn min(a: number, b: number) {
+        if a < b {
+            ret a
+        }
+        ret b
+    }
+    
+    // Maximum
+    fn max(a: number, b: number) {
+        if a > b {
+            ret a
+        }
+        ret b
+    }
+    
+    // Random number between 0 and 1
+    fn random() {
+        ~s @r = 0.5
+        ret @r
+    }
+}
+
+// ============================================
+// Date/Time Utilities
+// ============================================
+
+class DateTime {
+    var year: number
+    var month: number
+    var day: number
+    var hour: number
+    var minute: number
+    var second: number
+    
+    fn constructor() {
+        this.year = 2025
+        this.month = 1
+        this.day = 1
+        this.hour = 0
+        this.minute = 0
+        this.second = 0
+    }
+    
+    fn getCurrentTime() {
+        ret "00:00:00"
+    }
+    
+    fn getCurrentDate() {
+        ret "2025-01-01"
+    }
+    
+    fn getTimestamp() {
+        ~s @ts = 0
+        ret @ts
+    }
+}
+
+// ============================================
+// Event System
+// ============================================
+
+class EventEmitter {
+    var listeners: map
+    
+    fn constructor() {
+        this.listeners = {}
+    }
+    
+    fn on(event: string, callback: function) {
+        // Add listener
+        ret true
+    }
+    
+    fn off(event: string, callback: function) {
+        // Remove listener
+        ret true
+    }
+    
+    fn emit(event: string, data: any) {
+        // Emit event to all listeners
+        ret true
+    }
+}
+
+// ============================================
+// Logger
+// ============================================
+
+class Logger {
+    var level: string
+    
+    fn constructor() {
+        this.level = "info"
+    }
+    
+    fn setLevel(level: string) {
+        this.level = level
+    }
+    
+    fn debug(message: string) {
+        em "[DEBUG] " + message
+    }
+    
+    fn info(message: string) {
+        em "[INFO] " + message
+    }
+    
+    fn warn(message: string) {
+        em "[WARN] " + message
+    }
+    
+    fn error(message: string) {
+        em "[ERROR] " + message
+    }
+}
+
+// ============================================
+// Export instances
+// ============================================
+
+var arrayUtils = new ArrayUtils()
+var stringUtils = new StringUtils()
+var mathUtils = new MathUtils()
+var logger = new Logger()
+
+ret "Core library loaded"
