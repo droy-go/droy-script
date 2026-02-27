@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droy Runtime - Live UI Preview</title>
+    <link rel="stylesheet" href="runtime.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="runtime-container">
+        <!-- Header -->
+        <header class="runtime-header">
+            <div class="header-left">
+                <span class="runtime-logo">◈</span>
+                <h1>Droy Runtime</h1>
+                <span class="runtime-badge">Live Preview</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-icon" id="btn-reload" title="Reload">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="btn btn-icon" id="btn-clear" title="Clear">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn btn-primary" id="btn-execute">
+                    <i class="fas fa-play"></i> Execute
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="runtime-layout">
+            <!-- Left Panel: Code Input -->
+            <div class="panel code-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-code"></i> Droy Code</h3>
+                    <div class="panel-actions">
+                        <select id="code-template">
+                            <option value="">Select Template...</option>
+                            <option value="button">Button</option>
+                            <option value="form">Form</option>
+                            <option value="card">Card</option>
+                            <option value="modal">Modal</option>
+                            <option value="navbar">Navigation Bar</option>
+                            <option value="table">Data Table</option>
+                            <option value="tabs">Tabs</option>
+                            <option value="alert">Alert/Toast</option>
+                        </select>
+                    </div>
+                </div>
+                <textarea id="droy-code" placeholder="// Enter your Droy code here...
+// Example: Create a button
+block: key('myButton') {
+    sty {
+        set type = 'button'
+        set text = 'Click Me!'
+        set color = 'primary'
+        set onClick = 'handleClick()'
+    }
+}"></textarea>
+            </div>
+
+            <!-- Center Panel: Live Preview -->
+            <div class="panel preview-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-eye"></i> Live Preview</h3>
+                    <div class="view-modes">
+                        <button class="view-btn active" data-view="desktop">
+                            <i class="fas fa-desktop"></i>
+                        </button>
+                        <button class="view-btn" data-view="tablet">
+                            <i class="fas fa-tablet-alt"></i>
+                        </button>
+                        <button class="view-btn" data-view="mobile">
+                            <i class="fas fa-mobile-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="preview-frame-container">
+                    <div id="preview-frame" class="preview-frame desktop">
+                        <div id="preview-content" class="preview-content">
+                            <div class="empty-state">
+                                <i class="fas fa-cube"></i>
+                                <p>Enter Droy code to see live preview</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Component Library -->
+            <div class="panel components-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-puzzle-piece"></i> Components</h3>
+                    <input type="text" id="component-search" placeholder="Search components...">
+                </div>
+                <div class="components-list">
+                    <!-- Basic Components -->
+                    <div class="component-category">
+                        <h4>Basic</h4>
+                        <div class="component-items">
+                            <div class="component-item" data-component="button" draggable="true">
+                                <i class="fas fa-square"></i>
+                                <span>Button</span>
+                            </div>
+                            <div class="component-item" data-component="input" draggable="true">
+                                <i class="fas fa-i-cursor"></i>
+                                <span>Input</span>
+                            </div>
+                            <div class="component-item" data-component="text" draggable="true">
+                                <i class="fas fa-font"></i>
+                                <span>Text</span>
+                            </div>
+                            <div class="component-item" data-component="image" draggable="true">
+                                <i class="fas fa-image"></i>
+                                <span>Image</span>
+                            </div>
+                            <div class="component-item" data-component="icon" draggable="true">
+                                <i class="fas fa-icons"></i>
+                                <span>Icon</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Components -->
+                    <div class="component-category">
+                        <h4>Form</h4>
+                        <div class="component-items">
+                            <div class="component-item" data-component="form" draggable="true">
+                                <i class="fas fa-wpforms"></i>
+                                <span>Form</span>
+                            </div>
+                            <div class="component-item" data-component="checkbox" draggable="true">
+                                <i class="fas fa-check-square"></i>
+                                <span>Checkbox</span>
+                            </div>
+                            <div class="component-item" data-component="radio" draggable="true">
+                                <i class="fas fa-dot-circle"></i>
+                                <span>Radio</span>
+                            </div>
+                            <div class="component-item" data-component="select" draggable="true">
+                                <i class="fas fa-list"></i>
+                                <span>Select</span>
+                            </div>
+                            <div class="component-item" data-component="textarea" draggable="true">
+                                <i class="fas fa-align-left"></i>
+                                <span>Textarea</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layout Components -->
+                    <div class="component-category">
+                        <h4>Layout</h4>
+                        <div class="component-items">
+                            <div class="component-item" data-component="container" draggable="true">
+                                <i class="fas fa-vector-square"></i>
+                                <span>Container</span>
+                            </div>
+                            <div class="component-item" data-component="row" draggable="true">
+                                <i class="fas fa-columns"></i>
+                                <span>Row</span>
+                            </div>
+                            <div class="component-item" data-component="column" draggable="true">
+                                <i class="fas fa-grip-lines-vertical"></i>
+                                <span>Column</span>
+                            </div>
+                            <div class="component-item" data-component="card" draggable="true">
+                                <i class="far fa-square"></i>
+                                <span>Card</span>
+                            </div>
+                            <div class="component-item" data-component="divider" draggable="true">
+                                <i class="fas fa-minus"></i>
+                                <span>Divider</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Components -->
+                    <div class="component-category">
+                        <h4>Navigation</h4>
+                        <div class="component-items">
+                            <div class="component-item" data-component="navbar" draggable="true">
+                                <i class="fas fa-bars"></i>
+                                <span>Navbar</span>
+                            </div>
+                            <div class="component-item" data-component="tabs" draggable="true">
+                                <i class="fas fa-folder"></i>
+                                <span>Tabs</span>
+                            </div>
+                            <div class="component-item" data-component="breadcrumb" draggable="true">
+                                <i class="fas fa-angle-right"></i>
+                                <span>Breadcrumb</span>
+                            </div>
+                            <div class="component-item" data-component="pagination" draggable="true">
+                                <i class="fas fa-ellipsis-h"></i>
+                                <span>Pagination</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Components -->
+                    <div class="component-category">
+                        <h4>Feedback</h4>
+                        <div class="component-items">
+                            <div class="component-item" data-component="alert" draggable="true">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Alert</span>
+                            </div>
+                            <div class="component-item" data-component="modal" draggable="true">
+                                <i class="fas fa-window-maximize"></i>
+                                <span>Modal</span>
+                            </div>
+                            <div class="component-item" data-component="progress" draggable="true">
+                                <i class="fas fa-spinner"></i>
+                                <span>Progress</span>
+                            </div>
+                            <div class="component-item" data-component="toast" draggable="true">
+                                <i class="fas fa-bell"></i>
+                                <span>Toast</span>
+                            </div>
+                            <div class="component-item" data-component="badge" draggable="true">
+                                <i class="fas fa-tag"></i>
+                                <span>Badge</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Display -->
+                    <div class="component-category">
+                        <h4>Data Display</h4>
+                        <div class="component-items">
+                            <div class="component-item" data-component="table" draggable="true">
+                                <i class="fas fa-table"></i>
+                                <span>Table</span>
+                            </div>
+                            <div class="component-item" data-component="list" draggable="true">
+                                <i class="fas fa-list-ul"></i>
+                                <span>List</span>
+                            </div>
+                            <div class="component-item" data-component="timeline" draggable="true">
+                                <i class="fas fa-stream"></i>
+                                <span>Timeline</span>
+                            </div>
+                            <div class="component-item" data-component="chart" draggable="true">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Chart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Panel: Properties & Events -->
+        <div class="bottom-panel">
+            <div class="panel-tabs">
+                <button class="panel-tab active" data-tab="properties">
+                    <i class="fas fa-sliders-h"></i> Properties
+                </button>
+                <button class="panel-tab" data-tab="events">
+                    <i class="fas fa-bolt"></i> Events
+                </button>
+                <button class="panel-tab" data-tab="styles">
+                    <i class="fas fa-paint-brush"></i> Styles
+                </button>
+                <button class="panel-tab" data-tab="generated">
+                    <i class="fas fa-code"></i> Generated Code
+                </button>
+            </div>
+            
+            <div class="panel-content">
+                <!-- Properties Tab -->
+                <div class="tab-content active" id="properties-tab">
+                    <div class="properties-grid" id="properties-grid">
+                        <p class="empty-message">Select a component to edit its properties</p>
+                    </div>
+                </div>
+                
+                <!-- Events Tab -->
+                <div class="tab-content" id="events-tab">
+                    <div class="events-list" id="events-list">
+                        <p class="empty-message">Select a component to configure events</p>
+                    </div>
+                </div>
+                
+                <!-- Styles Tab -->
+                <div class="tab-content" id="styles-tab">
+                    <div class="styles-editor" id="styles-editor">
+                        <p class="empty-message">Select a component to edit styles</p>
+                    </div>
+                </div>
+                
+                <!-- Generated Code Tab -->
+                <div class="tab-content" id="generated-tab">
+                    <pre id="generated-code"><code>// Generated Droy code will appear here</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="runtime.js"></script>
+</body>
+</html>
