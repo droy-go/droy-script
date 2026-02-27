@@ -1,0 +1,181 @@
+{
+    // =============================================================================
+    // Droy Language - VS Code Debug Configuration
+    // =============================================================================
+    // These configurations allow you to debug Droy Language from VS Code.
+    // Press F5 to start debugging.
+    // =============================================================================
+    
+    "version": "0.2.0",
+    
+    "configurations": [
+        // =====================================================================
+        // Debug Droy Compiler
+        // =====================================================================
+        {
+            "name": "Debug: Droy (Hello World)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/droy",
+            "args": ["${workspaceFolder}/examples/hello.droy"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build: Debug",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "Debug: Droy (Current File)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/droy",
+            "args": ["${file}"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build: Debug"
+        },
+        {
+            "name": "Debug: Droy (Interactive)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/droy",
+            "args": ["-i"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build: Debug"
+        },
+        {
+            "name": "Debug: Droy (Print Tokens)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/droy",
+            "args": ["-t", "${workspaceFolder}/examples/hello.droy"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build: Debug"
+        },
+        {
+            "name": "Debug: Droy (Print AST)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/droy",
+            "args": ["-a", "${workspaceFolder}/examples/hello.droy"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build: Debug"
+        },
+        
+        // =====================================================================
+        // Debug Tests
+        // =====================================================================
+        {
+            "name": "Debug: Unit Tests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/test-lexer",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build: Debug"
+        },
+        
+        // =====================================================================
+        // macOS Debug Configurations
+        // =====================================================================
+        {
+            "name": "Debug: Droy (macOS)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/droy",
+            "args": ["${workspaceFolder}/examples/hello.droy"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "Build: Debug"
+        },
+        
+        // =====================================================================
+        // Windows Debug Configurations
+        // =====================================================================
+        {
+            "name": "Debug: Droy (Windows)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/droy.exe",
+            "args": ["${workspaceFolder}/examples/hello.droy"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "Build: Debug"
+        }
+    ],
+    
+    "compounds": [
+        {
+            "name": "Debug: All Tests",
+            "configurations": ["Debug: Unit Tests"]
+        }
+    ]
+}
