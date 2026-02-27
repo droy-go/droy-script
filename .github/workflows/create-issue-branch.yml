@@ -1,0 +1,31 @@
+# =============================================================================
+# Droy Language - Create Issue Branch
+# =============================================================================
+# This workflow automatically creates a branch when an issue is assigned.
+# =============================================================================
+
+name: Create Issue Branch
+
+on:
+  issues:
+    types: [assigned]
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  create-issue-branch:
+    runs-on: ubuntu-latest
+    name: Create Issue Branch
+    
+    steps:
+    - name: Create Issue Branch
+      uses: robvanderleek/create-issue-branch@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
