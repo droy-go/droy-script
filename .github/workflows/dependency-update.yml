@@ -23,7 +23,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     
     - name: Check for action updates
       uses: renovatebot/github-action@v40.1.0
@@ -45,7 +45,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     
     - name: Test with LLVM ${{ matrix.llvm_version }}
       run: |
