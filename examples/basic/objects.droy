@@ -1,0 +1,30 @@
+// Objects Example
+// ===============
+
+pkg "objects"
+
+// Create an object
+~s person = {
+    name: "John",
+    age: 30,
+    city: "New York"
+}
+
+// Access properties
+em "Name: " + person.name
+em "Age: " + person.age
+em "City: " + person.city
+
+// Nested object
+~s company = {
+    name: "Tech Corp",
+    address: {
+        street: "123 Main St",
+        city: "San Francisco",
+        zip: "94105"
+    }
+}
+
+em ""
+em "Company: " + company.name
+em "Street: " + company.address.street
