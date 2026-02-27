@@ -1,0 +1,36 @@
+// Droy Helper Language - Commands Example
+// =======================================
+
+// Droy commands
+*/employment
+*/Running
+*/pressure
+*/lock
+
+// Define links
+link id: "homepage" api: "https://example.com"
+link id: "api" api: "https://api.example.com/v1"
+
+// Extended links
+yoex--links id: "external" api: "https://external.com"
+
+// Define a block
+block initSystem {
+    ~s @si = "System"
+    ~s @ui = "Initialized"
+    em @si + " " + @ui
+}
+
+// Use package
+pkg load "core"
+pkg load "network"
+
+// Media handling
+media play "intro.mp4"
+media stop
+
+// Output
+text "Commands executed successfully"
+
+// Return
+ret 0
