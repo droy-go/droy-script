@@ -128,7 +128,7 @@ jobs:
           fi
       
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: droy-linux-${{ matrix.compiler }}
           path: |
@@ -158,7 +158,7 @@ jobs:
           make -j$(sysctl -n hw.ncpu)
       
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: droy-macos
           path: |
@@ -193,7 +193,7 @@ jobs:
           make CC=gcc -j$(nproc)
       
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: droy-windows
           path: |
@@ -231,7 +231,7 @@ jobs:
           ./scripts/run-tests.sh -e
       
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: test-results
@@ -274,7 +274,7 @@ jobs:
           verbose: true
       
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-report
           path: coverage/

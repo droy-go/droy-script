@@ -117,7 +117,7 @@ jobs:
           src/ include/ llvm_backend/ 2> cppcheck-report.xml || true
     
     - name: Upload report
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: cppcheck-report
         path: cppcheck-report.xml
@@ -167,7 +167,7 @@ jobs:
       continue-on-error: true
     
     - name: Upload IWYU report
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: iwyu-report
         path: iwyu-report.txt
