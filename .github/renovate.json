@@ -1,0 +1,37 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":automergeMinor"
+  ],
+  "schedule": [
+    "before 9am on monday"
+  ],
+  "timezone": "UTC",
+  "labels": ["dependencies", "renovate"],
+  "reviewers": ["droy-go"],
+  "assignees": ["droy-go"],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "labels": ["dependencies", "github-actions"]
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "breaking-change"],
+      "automerge": false
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "labels": ["dependencies", "non-breaking"],
+      "automerge": true
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security", "vulnerability"]
+  }
+}
