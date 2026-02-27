@@ -1,0 +1,312 @@
+// Droy Code Editor - Main Entry Point
+// ====================================
+// A complete code editor written in Droy language
+
+// Import core modules
+link id: "core" api: "./lib/core.droy"
+link id: "ui" api: "./lib/ui.droy"
+link id: "editor" api: "./lib/editor.droy"
+link id: "interpreter" api: "./lib/interpreter.droy"
+link id: "filemanager" api: "./lib/filemanager.droy"
+
+// Load packages
+pkg load "core"
+pkg load "ui"
+pkg load "editor"
+pkg load "interpreter"
+pkg load "filemanager"
+
+// ============================================
+// Main Application Class
+// ============================================
+
+class DroyEditor {
+    var title: string
+    var version: string
+    var isDarkMode: boolean
+    var currentFile: string
+    var files: array
+    var editorContent: string
+    var output: array
+    var interpreter: Interpreter
+    var uiManager: UIManager
+    var fileManager: FileManager
+    
+    // Constructor
+    fn constructor() {
+        ~s @si = "Droy"
+        ~s @ui = "Editor"
+        this.title = @si + " " + @ui
+        this.version = "1.0.0"
+        this.isDarkMode = true
+        this.currentFile = "untitled.droy"
+        this.files = []
+        this.editorContent = ""
+        this.output = []
+        this.interpreter = new Interpreter()
+        this.uiManager = new UIManager()
+        this.fileManager = new FileManager()
+        
+        // Initialize default content
+        this.editorContent = this.getWelcomeContent()
+        
+        em "Initialized: " + this.title + " v" + this.version
+    }
+    
+    // Get welcome content for new files
+    fn getWelcomeContent() {
+        ~s @wc = "// Welcome to Droy Code Editor!\n"
+        ~s @wc = @wc + "// ============================\n\n"
+        ~s @wc = @wc + "// Variables\n"
+        ~s @wc = @wc + "var name = \"Droy Developer\"\n"
+        ~s @wc = @wc + "~s @si = 100\n\n"
+        ~s @wc = @wc + "// Output\n"
+        ~s @wc = @wc + "em \"Hello, \" + name + \"!\"\n\n"
+        ~s @wc = @wc + "// Function\n"
+        ~s @wc = @wc + "fn greet(user) {\n"
+        ~s @wc = @wc + "    ret \"Hello, \" + user\n"
+        ~s @wc = @wc + "}\n\n"
+        ~s @wc = @wc + "greet(\"World\")\n"
+        ~s @wc = @wc + "ret \"Done!\""
+        ret @wc
+    }
+    
+    // Initialize the editor
+    fn init() {
+        em "Initializing UI..."
+        this.uiManager.init(this.isDarkMode)
+        
+        em "Loading file manager..."
+        this.fileManager.init()
+        
+        em "Setting up event handlers..."
+        this.setupEventHandlers()
+        
+        em "Rendering interface..."
+        this.render()
+        
+        ret "Editor initialized successfully"
+    }
+    
+    // Setup event handlers
+    fn setupEventHandlers() {
+        // Run button handler
+        block onRunClick {
+            this.runCode()
+        }
+        
+        // Save button handler
+        block onSaveClick {
+            this.saveFile()
+        }
+        
+        // New file handler
+        block onNewFileClick {
+            this.createNewFile()
+        }
+        
+        // Toggle theme handler
+        block onToggleTheme {
+            this.toggleTheme()
+        }
+        
+        // File click handler
+        block onFileClick {
+            this.selectFile()
+        }
+        
+        ret "Event handlers configured"
+    }
+    
+    // Run current code
+    fn runCode() {
+        em "Running code..."
+        
+        // Clear previous output
+        this.output = []
+        
+        // Execute code through interpreter
+        var result = this.interpreter.execute(this.editorContent)
+        
+        // Store output
+        this.output = result.output
+        
+        // Display output
+        this.uiManager.displayOutput(this.output, result.returnValue)
+        
+        em "Execution completed"
+        ret result
+    }
+    
+    // Save current file
+    fn saveFile() {
+        em "Saving file: " + this.currentFile
+        
+        var success = this.fileManager.saveFile(
+            this.currentFile,
+            this.editorContent
+        )
+        
+        if success {
+            em "File saved successfully"
+        } else {
+            em "Error: Failed to save file"
+        }
+        
+        ret success
+    }
+    
+    // Create new file
+    fn createNewFile() {
+        em "Creating new file..."
+        
+        // Save current file first
+        this.saveFile()
+        
+        // Create new file
+        ~s @newFile = "new_file_" + this.files.length + ".droy"
+        this.currentFile = @newFile
+        this.editorContent = "// New Droy file\n\n"
+        
+        // Add to files list
+        this.files.push(this.currentFile)
+        
+        // Update UI
+        this.uiManager.updateFileList(this.files, this.currentFile)
+        this.uiManager.updateEditorContent(this.editorContent)
+        
+        em "New file created: " + this.currentFile
+        ret this.currentFile
+    }
+    
+    // Select file
+    fn selectFile(filename: string) {
+        em "Selecting file: " + filename
+        
+        // Save current file
+        this.saveFile()
+        
+        // Load new file
+        this.currentFile = filename
+        this.editorContent = this.fileManager.loadFile(filename)
+        
+        // Update UI
+        this.uiManager.updateEditorContent(this.editorContent)
+        this.uiManager.highlightFile(filename)
+        
+        ret this.editorContent
+    }
+    
+    // Toggle dark/light theme
+    fn toggleTheme() {
+        this.isDarkMode = !this.isDarkMode
+        
+        if this.isDarkMode {
+            em "Switched to dark mode"
+        } else {
+            em "Switched to light mode"
+        }
+        
+        this.uiManager.setTheme(this.isDarkMode)
+        ret this.isDarkMode
+    }
+    
+    // Update editor content
+    fn updateContent(newContent: string) {
+        this.editorContent = newContent
+        ret this.editorContent
+    }
+    
+    // Get current content
+    fn getContent() {
+        ret this.editorContent
+    }
+    
+    // Render the editor interface
+    fn render() {
+        // Render header
+        this.uiManager.renderHeader(this.title, this.version)
+        
+        // Render sidebar with file explorer
+        this.uiManager.renderSidebar(this.files, this.currentFile)
+        
+        // Render main editor area
+        this.uiManager.renderEditor(this.editorContent)
+        
+        // Render terminal/output panel
+        this.uiManager.renderTerminal()
+        
+        // Render status bar
+        this.uiManager.renderStatusBar(this.currentFile)
+        
+        ret "Interface rendered"
+    }
+    
+    // Main loop
+    fn mainLoop() {
+        em "Starting main loop..."
+        
+        block mainLoop {
+            // Process events
+            this.uiManager.processEvents()
+            
+            // Update display
+            this.uiManager.refresh()
+            
+            // Check for exit condition
+            ~s @shouldExit = this.uiManager.shouldExit()
+            
+            if @shouldExit {
+                em "Exiting main loop..."
+                ret "exit"
+            }
+        }
+        
+        // Run loop continuously
+        mainLoop
+        
+        ret "Main loop ended"
+    }
+    
+    // Cleanup and exit
+    fn exit() {
+        em "Saving before exit..."
+        this.saveFile()
+        
+        em "Cleaning up resources..."
+        this.interpreter.cleanup()
+        this.uiManager.cleanup()
+        this.fileManager.cleanup()
+        
+        em "Goodbye!"
+        ret 0
+    }
+}
+
+// ============================================
+// Application Entry Point
+// ============================================
+
+block startEditor {
+    em "========================================"
+    em "    Droy Code Editor v1.0.0"
+    em "========================================"
+    em ""
+    
+    // Create editor instance
+    var editor = new DroyEditor()
+    
+    // Initialize
+    editor.init()
+    
+    // Run main loop
+    editor.mainLoop()
+    
+    // Exit
+    editor.exit()
+}
+
+// Start the editor
+startEditor
+
+ret "Application completed"
