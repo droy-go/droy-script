@@ -1,0 +1,36 @@
+// Droy Language - Blocks and Styling Example
+// ===========================================
+
+// Define a block with key
+block: key("main", "container") {
+    // Inside the block
+    set title = "Main Block"
+    text title
+    
+    // Nested styling
+    sty {
+        set color = "blue"
+        set size = "large"
+        em "Style: " + color + ", " + size
+    }
+}
+
+// Package declaration
+pkg "main-package"
+
+// Media element
+media "https://example.com/image.png"
+
+// Media with id and api
+media id: "hero-image" api: "https://cdn.example.com/hero.png"
+
+// For loop example
+for i in 5 {
+    text "Iteration: " + i
+}
+
+// Using fe (if) - simplified
+// fe condition { ... }
+
+// Using f (function) - simplified
+// f name() { ... }
