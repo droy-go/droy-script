@@ -1,0 +1,35 @@
+// Droy Contract Examples
+// ======================
+// Contracts for simulators, databases, connections, and buffers
+
+// Simulator Contract
+~contract simulator @my_sim
+    ~speed *100
+    ~buffer *1024
+    ~connection @conn1
+~end
+
+// Database Contract
+~contract database @users_db
+    ~speed *50
+    ~buffer *2048
+    ~size *10000
+~end
+
+// Connection Contract
+~contract connection @api_conn
+    ~speed *1000
+    ~buffer *512
+~end
+
+// Buffer Contract
+~contract buffer @cache
+    ~size *4096
+~end
+
+// Output info
+text "Contracts created successfully!"
+em "Simulator: @my_sim"
+em "Database: @users_db"
+em "Connection: @api_conn"
+em "Buffer: @cache"
