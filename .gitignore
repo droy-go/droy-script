@@ -1,0 +1,95 @@
+# Droy Language - Git Ignore
+
+# Compiled Binaries
+/bin/
+/obj/
+*.exe
+*.out
+*.o
+*.a
+*.so
+*.dll
+*.dylib
+
+# LLVM Output
+*.ll
+*.s
+*.bc
+
+# Build Directories
+/build/
+/cmake-build-*/
+/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Test Output
+/test-results/
+/coverage/
+*.gcov
+*.gcno
+*.gcda
+
+# Dependencies
+/node_modules/
+/vendor/
+
+# Package Manager
+droy-pm
+
+# Logs
+*.log
+/logs/
+
+# Temporary Files
+/tmp/
+/temp/
+*.tmp
+
+# Debug Files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Core dumps
+core
+core.*
+
+# Editor Config
+*.sublime-*
+*.code-workspace
+
+# OS Files
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Documentation Build
+/docs/_build/
+/site/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Cache
+.cache/
+*.cache
+
+# Profiling
+*.prof
+gmon.out
+
+# Fuzzing
+crash-*
+oom-*
+slow-*
