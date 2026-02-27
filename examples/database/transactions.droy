@@ -1,0 +1,63 @@
+// Droy Database - Transactions Example
+// =====================================
+
+set db = database "bank" type: memory
+
+// Accounts table
+set accounts = db.table "accounts" schema: {
+    id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+    account_number: TEXT UNIQUE NOT_NULL
+    holder_name: TEXT NOT_NULL
+    balance: REAL DEFAULT: 0
+}
+
+// Create two accounts
+set acc1 = accounts.insert {
+    account_number: "ACC001"
+    holder_name: "Alice"
+    balance: 1000
+}
+
+set acc2 = accounts.insert {
+    account_number: "ACC002"
+    holder_name: "Bob"
+    balance: 500
+}
+
+em "Initial balances:"
+em "  Alice: $" + acc1.balance
+em "  Bob: $" + acc2.balance
+
+// Transfer money using transaction
+transaction db {
+    // Deduct from Alice
+    set deduct = accounts.update {
+        where: { account_number: "ACC001" }
+        set: { balance: acc1.balance - 200 }
+    }
+    
+    // Add to Bob
+    set add = accounts.update {
+        where: { account_number: "ACC002" }
+        set: { balance: acc2.balance + 200 }
+    }
+    
+    // Verify the transfer
+    if (deduct == 1 && add == 1) {
+        em "Transfer successful!"
+    } else {
+        em "Transfer failed - rolling back"
+        rollback
+    }
+}
+
+// Query final balances
+set finalAlice = accounts.where { account_number: "ACC001" }.first()
+set finalBob = accounts.where { account_number: "ACC002" }.first()
+
+em "Final balances:"
+em "  Alice: $" + finalAlice.balance
+em "  Bob: $" + finalBob.balance
+
+// Return
+ret 0
