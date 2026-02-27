@@ -1,0 +1,117 @@
+{
+    // =============================================================================
+    // Droy Language - VS Code Settings
+    // =============================================================================
+    
+    // C/C++ Configuration
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.default.intelliSenseMode": "linux-clang-x64",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.cStandard": "c11",
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/include",
+        "${workspaceFolder}/llvm_backend",
+        "/usr/lib/llvm-15/include",
+        "/usr/local/opt/llvm/include"
+    ],
+    "C_Cpp.default.defines": [
+        "DEBUG",
+        "_GNU_SOURCE"
+    ],
+    
+    // Formatting
+    "C_Cpp.formatting": "clangFormat",
+    "C_Cpp.clang_format_style": "file",
+    "C_Cpp.clang_format_path": "clang-format",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    
+    // Linting
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "C_Cpp.codeAnalysis.clangTidy.path": "clang-tidy",
+    "C_Cpp.codeAnalysis.clangTidy.config": "file",
+    "C_Cpp.codeAnalysis.runAutomatically": true,
+    
+    // CMake
+    "cmake.configureOnOpen": true,
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.generator": "Ninja",
+    "cmake.preferredGenerators": [
+        "Ninja",
+        "Unix Makefiles"
+    ],
+    
+    // Files
+    "files.associations": {
+        "*.droy": "droy",
+        "*.droyh": "droy",
+        "*.h": "c",
+        "*.hpp": "cpp"
+    },
+    "files.exclude": {
+        "**/build": true,
+        "**/cmake-build-*": true,
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true
+    },
+    "files.watcherExclude": {
+        "**/build/**": true,
+        "**/cmake-build-*/**": true,
+        "**/.git/objects/**": true
+    },
+    
+    // Editor
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.rulers": [100],
+    "editor.wordWrap": "off",
+    "editor.trimAutoWhitespace": true,
+    "editor.renderWhitespace": "boundary",
+    
+    // Search
+    "search.exclude": {
+        "**/build": true,
+        "**/cmake-build-*": true,
+        "**/*.o": true,
+        "**/*.obj": true,
+        "**/*.a": true,
+        "**/*.so": true,
+        "**/*.dll": true
+    },
+    
+    // Terminal
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    
+    // Debugging
+    "debug.allowBreakpointsEverywhere": true,
+    "debug.inlineValues": true,
+    
+    // Git
+    "git.ignoreLimitWarning": true,
+    "git.enableSmartCommit": true,
+    
+    // Extensions
+    "extensions.ignoreRecommendations": false,
+    
+    // Workbench
+    "workbench.editor.enablePreview": false,
+    "workbench.tree.indent": 20,
+    
+    // Telemetry
+    "telemetry.telemetryLevel": "off",
+    
+    // Spell Checker (if installed)
+    "cSpell.words": [
+        "droy",
+        "droyh",
+        "LLVM",
+        "MCJIT",
+        "BitWriter",
+        "InstCombine",
+        "TransformUtils"
+    ]
+}
