@@ -1,0 +1,91 @@
+# =============================================================================
+# Droy Language - Create Issue Branch Configuration
+# =============================================================================
+# This file configures automatic branch creation from issues.
+# For more information: https://github.com/robvanderleek/create-issue-branch
+# =============================================================================
+
+# Branch name format
+branchName: '${issue.number}-${issue.title,}'
+
+# Git safe replacement for special characters in branch names
+gitSafeReplacement: '-'
+
+# Maximum length of branch name (Git has a limit of 255 characters)
+maxBranchNameLength: 50
+
+# Whether to open a PR automatically when the branch is created
+autoCloseIssue: true
+
+# Whether to copy labels from issue to PR
+copyLabelsFromIssue: true
+
+# Whether to copy assignees from issue to PR
+copyAssigneesFromIssue: true
+
+# Whether to copy projects from issue to PR
+copyProjectsFromIssue: true
+
+# Whether to copy milestones from issue to PR
+copyMilestonesFromIssue: true
+
+# Default branch to create PRs against
+defaultBranch: 'main'
+
+# Branches configuration
+branches:
+  - label: bug
+    prefix: fix/
+    name: main
+  
+  - label: enhancement
+    prefix: feature/
+    name: main
+  
+  - label: documentation
+    prefix: docs/
+    name: main
+  
+  - label: performance
+    prefix: perf/
+    name: main
+  
+  - label: refactor
+    prefix: refactor/
+    name: main
+
+# Comment to add when creating a branch
+commentMessage: |
+  Branch `${branchName}` created for this issue!
+  
+  To work on this issue:
+  ```bash
+  git fetch origin
+  git checkout ${branchName}
+  ```
+
+# Whether to open a draft PR
+openDraftPR: false
+
+# PR title format
+prTitle: '${issue.title}'
+
+# PR body format
+prBody: |
+  ## Description
+  
+  Closes #${issue.number}
+  
+  ${issue.body}
+
+# Whether to skip branch creation for PRs from forks
+skipForks: true
+
+# Whether to skip branch creation for users without write access
+skipUsersWithoutPermission: true
+
+# Conventional commits configuration
+conventionalPrTitles: true
+conventionalPrTitlesOptions:
+  ignoreLabels:
+    - skip-conventional-pr
