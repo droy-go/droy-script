@@ -1,0 +1,33 @@
+// Droy Helper Language - Variables Example
+// =========================================
+
+// Variable declarations
+var name = "Droy"
+var version = 1.0
+var isActive = true
+
+// Constants
+const PI = 3.14159
+const MAX_SIZE = 100
+
+// Special variables
+~s @si = 100
+~s @ui = 200
+
+// Math operations
+var sum = @si + @ui
+var diff = @si - @ui
+var product = @si * @ui
+var quotient = @si / @ui
+
+// Output results
+text "Variables Example"
+em "Name: " + name
+em "Version: " + version
+em "Sum: " + sum
+em "Difference: " + diff
+em "Product: " + product
+em "Quotient: " + quotient
+
+// Return
+ret sum
