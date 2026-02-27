@@ -1,0 +1,75 @@
+// Droy Web Server Example
+// A simple HTTP server (conceptual - requires network module)
+
+// Import network module (planned)
+// import "http"
+
+// Configuration
+set config = {
+    port: 8080,
+    host: "localhost"
+}
+
+// Route handlers
+f handleHome(request) {
+    ret {
+        status: 200,
+        body: "<h1>Welcome to Droy Server!</h1>"
+    }
+}
+
+f handleAbout(request) {
+    ret {
+        status: 200,
+        body: "<h1>About Droy</h1><p>A complete programming language</p>"
+    }
+}
+
+f handleApiData(request) {
+    ret {
+        status: 200,
+        contentType: "application/json",
+        body: '{"message": "Hello from Droy API", "version": "1.0.1"}'
+    }
+}
+
+f handle404(request) {
+    ret {
+        status: 404,
+        body: "<h1>404 Not Found</h1>"
+    }
+}
+
+// Router
+f route(request) {
+    fe (request.path == "/") {
+        ret handleHome(request)
+    }
+    fe (request.path == "/about") {
+        ret handleAbout(request)
+    }
+    fe (request.path == "/api/data") {
+        ret handleApiData(request)
+    }
+    ret handle404(request)
+}
+
+// Server startup (conceptual)
+em "=== Droy Web Server ==="
+em "Starting server on " + config.host + ":" + config.port
+em ""
+em "Available routes:"
+em "  GET /"
+em "  GET /about"
+em "  GET /api/data"
+em ""
+em "Server is running..."
+em "Press Ctrl+C to stop"
+
+// Note: Actual HTTP server implementation requires network module
+// Planned for v3.0.0
+
+link id: "docs" api: "https://droy-lang.org/docs"
+create-link: "docs"
+
+*/Running
