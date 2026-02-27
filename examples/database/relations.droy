@@ -1,0 +1,92 @@
+// Droy Database - Relations Example
+// ==================================
+
+set db = database "shop" type: memory
+
+// Customers table
+set customers = db.table "customers" schema: {
+    id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+    name: TEXT NOT_NULL
+    email: TEXT UNIQUE
+    phone: TEXT
+}
+
+// Products table
+set products = db.table "products" schema: {
+    id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+    name: TEXT NOT_NULL
+    price: REAL NOT_NULL
+    stock: INTEGER DEFAULT: 0
+}
+
+// Orders table with foreign keys
+set orders = db.table "orders" schema: {
+    id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+    customer_id: INTEGER NOT_NULL FOREIGN_KEY: "customers.id"
+    order_date: DATETIME
+    total: REAL DEFAULT: 0
+    status: TEXT DEFAULT: "pending"
+}
+
+// Order items table
+set order_items = db.table "order_items" schema: {
+    id: INTEGER PRIMARY_KEY AUTO_INCREMENT
+    order_id: INTEGER NOT_NULL FOREIGN_KEY: "orders.id"
+    product_id: INTEGER NOT_NULL FOREIGN_KEY: "products.id"
+    quantity: INTEGER NOT_NULL
+    price: REAL NOT_NULL
+}
+
+// Insert sample data
+set cust1 = customers.insert { name: "John Doe" email: "john@example.com" }
+set cust2 = customers.insert { name: "Jane Smith" email: "jane@example.com" }
+
+set prod1 = products.insert { name: "Laptop" price: 999.99 stock: 10 }
+set prod2 = products.insert { name: "Mouse" price: 29.99 stock: 50 }
+set prod3 = products.insert { name: "Keyboard" price: 79.99 stock: 30 }
+
+// Create an order
+set order1 = orders.insert {
+    customer_id: cust1.id
+    order_date: "2026-02-22"
+    status: "completed"
+}
+
+// Add order items
+set item1 = order_items.insert {
+    order_id: order1.id
+    product_id: prod1.id
+    quantity: 1
+    price: prod1.price
+}
+
+set item2 = order_items.insert {
+    order_id: order1.id
+    product_id: prod2.id
+    quantity: 2
+    price: prod2.price
+}
+
+// Calculate order total
+set orderItems = order_items.where { order_id: order1.id }.query()
+var total = 0
+for (item in orderItems) {
+    total = total + (item.price * item.quantity)
+}
+
+// Update order total
+orders.update {
+    where: { id: order1.id }
+    set: { total: total }
+}
+
+// Query with join (simulated)
+em "Order #" + order1.id + " for customer " + cust1.name
+em "Total: $" + total
+
+// Get customer's orders
+set customerOrders = orders.where { customer_id: cust1.id }.query()
+em "Customer has " + customerOrders.count() + " order(s)"
+
+// Return
+ret 0
