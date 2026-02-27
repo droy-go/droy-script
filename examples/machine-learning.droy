@@ -1,0 +1,125 @@
+// =============================================================================
+// Droy Language - Machine Learning Example
+// =============================================================================
+// This example demonstrates ML concepts using Droy syntax.
+// Note: This is a conceptual example showing Droy syntax for ML operations.
+// =============================================================================
+
+// Dataset configuration
+block: key("dataset") {
+    set dataset_name = "iris"
+    set train_split = 0.8
+    set test_split = 0.2
+    
+    // Features
+    set features = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+    set target = "species"
+}
+
+// Model configuration
+block: key("model") {
+    set model_type = "neural_network"
+    set input_size = 4
+    set hidden_size = 10
+    set output_size = 3
+    set learning_rate = 0.01
+    set epochs = 100
+    set batch_size = 32
+}
+
+// Neural network architecture
+block: key("neural_network") {
+    // Input layer
+    layer: type("input") {
+        units: @input_size
+        activation: "linear"
+    }
+    
+    // Hidden layer 1
+    layer: type("dense") {
+        units: @hidden_size
+        activation: "relu"
+    }
+    
+    // Hidden layer 2
+    layer: type("dense") {
+        units: @hidden_size
+        activation: "relu"
+    }
+    
+    // Output layer
+    layer: type("output") {
+        units: @output_size
+        activation: "softmax"
+    }
+}
+
+// Training configuration
+block: key("training") {
+    set optimizer = "adam"
+    set loss_function = "categorical_crossentropy"
+    set metrics = ["accuracy"]
+    
+    // Early stopping
+    callback: type("early_stopping") {
+        monitor: "val_loss"
+        patience: 10
+        restore_best_weights: true
+    }
+    
+    // Learning rate scheduler
+    callback: type("reduce_lr") {
+        monitor: "val_loss"
+        factor: 0.5
+        patience: 5
+    }
+}
+
+// Training loop
+~s @epoch = 0
+~s @best_loss = 999999.0
+~s @patience_counter = 0
+
+for @epoch in range(@epochs) {
+    // Forward pass
+    em "Epoch " + @epoch + "/" + @epochs
+    
+    // Calculate loss (simulated)
+    set train_loss = 0.5 - (@epoch * 0.004)
+    set val_loss = 0.6 - (@epoch * 0.003)
+    set train_acc = 0.3 + (@epoch * 0.006)
+    set val_acc = 0.25 + (@epoch * 0.005)
+    
+    em "  Train Loss: " + train_loss + " | Acc: " + train_acc
+    em "  Val Loss: " + val_loss + " | Acc: " + val_acc
+    
+    // Early stopping check
+    if val_loss < @best_loss {
+        ~s @best_loss = val_loss
+        ~s @patience_counter = 0
+        em "  -> New best model saved!"
+    } else {
+        ~s @patience_counter = @patience_counter + 1
+        if @patience_counter >= 10 {
+            em "  -> Early stopping triggered!"
+            break
+        }
+    }
+}
+
+// Evaluation
+block: key("evaluation") {
+    set test_accuracy = 0.95
+    set test_loss = 0.15
+    
+    em "\nFinal Results:"
+    em "  Test Accuracy: " + test_accuracy
+    em "  Test Loss: " + test_loss
+}
+
+// Save model
+text "\nSaving model..."
+em "Model saved to: models/" + dataset_name + "_" + model_type + ".droy"
+
+*/employment
+*/Running
