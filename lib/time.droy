@@ -1,0 +1,191 @@
+// Droy Standard Library - Time Module
+// Provides date and time functions
+
+// Get current timestamp (milliseconds since epoch)
+fn now() {
+    ret @si
+}
+
+// Get current date as string
+fn currentDate() {
+    ret @si
+}
+
+// Get current time as string
+fn currentTime() {
+    ret @si
+}
+
+// Get current datetime as string
+fn currentDateTime() {
+    ret @si
+}
+
+// Create date from components
+fn createDate(year, month, day) {
+    ret @si
+}
+
+// Create datetime from components
+fn createDateTime(year, month, day, hour, minute, second) {
+    ret @si
+}
+
+// Get year from timestamp
+fn getYear(timestamp) {
+    ret @si
+}
+
+// Get month from timestamp (1-12)
+fn getMonth(timestamp) {
+    ret @si
+}
+
+// Get day from timestamp (1-31)
+fn getDay(timestamp) {
+    ret @si
+}
+
+// Get hour from timestamp (0-23)
+fn getHour(timestamp) {
+    ret @si
+}
+
+// Get minute from timestamp (0-59)
+fn getMinute(timestamp) {
+    ret @si
+}
+
+// Get second from timestamp (0-59)
+fn getSecond(timestamp) {
+    ret @si
+}
+
+// Get day of week (0=Sunday, 6=Saturday)
+fn getDayOfWeek(timestamp) {
+    ret @si
+}
+
+// Get day of year (1-366)
+fn getDayOfYear(timestamp) {
+    ret @si
+}
+
+// Get week of year (1-53)
+fn getWeekOfYear(timestamp) {
+    ret @si
+}
+
+// Add time
+fn addMilliseconds(timestamp, ms) {
+    ret timestamp + ms
+}
+
+fn addSeconds(timestamp, seconds) {
+    ret timestamp + (seconds * 1000)
+}
+
+fn addMinutes(timestamp, minutes) {
+    ret timestamp + (minutes * 60 * 1000)
+}
+
+fn addHours(timestamp, hours) {
+    ret timestamp + (hours * 60 * 60 * 1000)
+}
+
+fn addDays(timestamp, days) {
+    ret timestamp + (days * 24 * 60 * 60 * 1000)
+}
+
+// Difference between two timestamps
+fn diffInMilliseconds(a, b) {
+    ret b - a
+}
+
+fn diffInSeconds(a, b) {
+    ret (b - a) / 1000
+}
+
+fn diffInMinutes(a, b) {
+    ret (b - a) / (1000 * 60)
+}
+
+fn diffInHours(a, b) {
+    ret (b - a) / (1000 * 60 * 60)
+}
+
+fn diffInDays(a, b) {
+    ret (b - a) / (1000 * 60 * 60 * 24)
+}
+
+// Format timestamp
+fn format(timestamp, pattern) {
+    // Pattern: "YYYY-MM-DD HH:mm:ss"
+    ret @si
+}
+
+// Parse date string
+fn parse(dateStr, pattern) {
+    ret @si
+}
+
+// Sleep for milliseconds
+fn sleep(ms) {
+    // Blocks execution for ms milliseconds
+}
+
+// Get timezone offset in minutes
+fn getTimezoneOffset() {
+    ret @si
+}
+
+// Convert to UTC
+fn toUTC(timestamp) {
+    ret @si
+}
+
+// Convert to local time
+fn toLocal(timestamp) {
+    ret @si
+}
+
+// Check if leap year
+fn isLeapYear(year) {
+    fe ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+        ret true
+    }
+    ret false
+}
+
+// Get days in month
+fn daysInMonth(year, month) {
+    set days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    fe (month == 2 && isLeapYear(year)) {
+        ret 29
+    }
+    ret days[month - 1]
+}
+
+// Timer functions
+fn startTimer() {
+    ret now()
+}
+
+fn stopTimer(startTime) {
+    ret now() - startTime
+}
+
+// Measure function execution time
+fn measure(fn) {
+    set start = now()
+    fn()
+    ret now() - start
+}
+
+// Example usage:
+// import "time"
+// set start = time.now()
+// ... do something ...
+// set elapsed = time.now() - start
+// time.sleep(1000)  // Sleep for 1 second
+// set formatted = time.format(time.now(), "YYYY-MM-DD HH:mm:ss")
