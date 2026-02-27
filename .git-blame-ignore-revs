@@ -1,0 +1,22 @@
+# =============================================================================
+# Droy Language - Git Blame Ignore Revisions
+# =============================================================================
+# This file contains commit hashes that should be ignored by git blame.
+# Useful for ignoring formatting-only commits.
+#
+# Usage:
+#   git blame --ignore-revs-file .git-blame-ignore-revs
+#   
+# Or configure git to always use it:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+# =============================================================================
+
+# Formatting commits (add hashes here as needed)
+# Example:
+# abc123def456789abcdef123456789abcdef1234  # Initial code formatting
+
+# Large refactoring commits
+# (add hashes here)
+
+# Import organization commits
+# (add hashes here)
